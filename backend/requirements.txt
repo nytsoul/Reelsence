@@ -1,0 +1,22 @@
+# ReelSense++ v2.0 Frontend Requirements
+# Backend API dependencies for full-stack system
+
+# Core Flask framework
+flask==2.3.3
+flask-cors==4.0.0
+
+# Data manipulation (if integrating with existing ML pipeline)
+pandas>=1.5.0
+numpy>=1.21.0
+
+# Optional: JWT authentication
+pyjwt==2.8.0
+
+# Optional: Database integration
+sqlalchemy==2.0.21
+
+# Optional: Redis for caching
+redis==4.6.0
+
+# Development utilities
+python-dotenv==1.0.0
