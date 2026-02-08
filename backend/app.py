@@ -21,6 +21,15 @@ sys.path.insert(0, os.path.dirname(__file__))
 app = Flask(__name__)
 CORS(app)
 
+# Health check endpoint for deployment platforms
+@app.route('/health')
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat(),
+        'model_loaded': MODEL_LOADED
+    })
+
 # ── Global State ─────────────────────────────────────────────────────────────
 hybrid_recommender = None
 movies_df = None
