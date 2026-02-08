@@ -11,6 +11,11 @@ import time
 import os
 import pickle
 
+# Add parent directories to path to import config
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+from config import PROCESSED_DATA_DIR, MODEL_DIR
+
 
 class ContentBasedModel:
     """Content-based filtering using TF-IDF on genres + tags."""
@@ -282,14 +287,21 @@ class HybridRecommender:
             pickle.dump(state, f)
 
 
-def build_hybrid_system(data_dir='data/processed', model_dir='src/models/saved'):
+def build_hybrid_system(data_dir=None, model_dir=None):
     """
     Load data, train all models, build hybrid recommender.
     Returns the trained HybridRecommender instance.
     """
+    if data_dir is None:
+        data_dir = PROCESSED_DATA_DIR
+    if model_dir is None:
+        model_dir = MODEL_DIR
+        
     print("=" * 60)
     print("ReelSense++ - Building Hybrid Recommendation System")
     print("=" * 60)
+    print(f"Data dir: {data_dir}")
+    print(f"Model dir: {model_dir}")
 
     # Load preprocessed data
     print("\n[1/4] Loading preprocessed data...")
@@ -320,9 +332,16 @@ def build_hybrid_system(data_dir='data/processed', model_dir='src/models/saved')
     return hybrid, train_df, movies_df
 
 
-def load_hybrid_system(data_dir='data/processed', model_dir='src/models/saved'):
+def load_hybrid_system(data_dir=None, model_dir=None):
     """Load a pre-trained hybrid system from disk."""
+    if data_dir is None:
+        data_dir = PROCESSED_DATA_DIR
+    if model_dir is None:
+        model_dir = MODEL_DIR
+        
     print("Loading pre-trained hybrid system...")
+    print(f"  Data dir: {data_dir}")
+    print(f"  Model dir: {model_dir}")
 
     train_df = pd.read_csv(os.path.join(data_dir, 'train_ratings.csv'))
     movies_df = pd.read_csv(os.path.join(data_dir, 'movies_cleaned.csv'))
@@ -344,7 +363,7 @@ if __name__ == "__main__":
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
     # Build or load
-    model_path = 'src/models/saved/svd_model.pkl'
+    model_path = os.path.join(MODEL_DIR, 'svd_model.pkl')
     if os.path.exists(model_path):
         print("Found existing models, loading...")
         hybrid, train_df, movies_df = load_hybrid_system()

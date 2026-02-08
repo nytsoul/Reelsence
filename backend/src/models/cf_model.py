@@ -259,12 +259,18 @@ class CFModelSVD:
 
 
 if __name__ == "__main__":
+    # Add parent directories to path to import config
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+    from config import get_processed_file_path
+    
     print("=" * 60)
     print("ReelSense++ - SVD Collaborative Filtering")
     print("=" * 60)
 
-    train_df = pd.read_csv('data/processed/train_ratings.csv')
-    test_df = pd.read_csv('data/processed/test_ratings.csv')
+    train_df = pd.read_csv(get_processed_file_path('train_ratings.csv'))
+    test_df = pd.read_csv(get_processed_file_path('test_ratings.csv'))
 
     print(f"\nDataset: {len(train_df):,} train / {len(test_df):,} test ratings")
 

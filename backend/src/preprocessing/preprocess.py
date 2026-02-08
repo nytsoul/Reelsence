@@ -7,9 +7,17 @@ import numpy as np
 import os
 from sklearn.preprocessing import LabelEncoder
 
+# Add parent directories to path to import config
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+from config import RAW_DATA_DIR, PROCESSED_DATA_DIR, ENCODER_DIR, get_processed_file_path, get_encoder_file_path
 
-def load_data(data_path='data/raw/ml-latest-small'):
+
+def load_data(data_path=None):
     """Load all four MovieLens CSV files."""
+    if data_path is None:
+        data_path = RAW_DATA_DIR
+    
     ratings = pd.read_csv(os.path.join(data_path, 'ratings.csv'))
     movies = pd.read_csv(os.path.join(data_path, 'movies.csv'))
     tags = pd.read_csv(os.path.join(data_path, 'tags.csv'))
@@ -145,11 +153,18 @@ def aggregate_tags(tags, movies):
     return movies
 
 
-def run_preprocessing(data_path='data/raw/ml-latest-small', output_path='data/processed'):
+def run_preprocessing(data_path=None, output_path=None):
     """Run the complete preprocessing pipeline."""
+    if data_path is None:
+        data_path = RAW_DATA_DIR
+    if output_path is None:
+        output_path = PROCESSED_DATA_DIR
+    
     print("=" * 60)
     print("ReelSense++ v2.0 - Data Preprocessing Pipeline")
     print("=" * 60)
+    print(f"Reading data from: {data_path}")
+    print(f"Writing output to: {output_path}")
 
     # Step 1: Load
     print("\n[1/7] Loading CSV files...")
@@ -189,9 +204,9 @@ def run_preprocessing(data_path='data/raw/ml-latest-small', output_path='data/pr
 
     # Save encoders
     import joblib
-    os.makedirs(os.path.join(output_path, 'encoders'), exist_ok=True)
-    joblib.dump(user_enc, os.path.join(output_path, 'encoders', 'user_encoder.pkl'))
-    joblib.dump(movie_enc, os.path.join(output_path, 'encoders', 'movie_encoder.pkl'))
+    os.makedirs(ENCODER_DIR, exist_ok=True)
+    joblib.dump(user_enc, get_encoder_file_path('user_encoder.pkl'))
+    joblib.dump(movie_enc, get_encoder_file_path('movie_encoder.pkl'))
 
     print("\n" + "=" * 60)
     print("✅ Preprocessing complete!")

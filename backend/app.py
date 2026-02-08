@@ -17,18 +17,12 @@ import random
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 sys.path.insert(0, os.path.dirname(__file__))
 
+# Import configuration
+from config import get_processed_file_path, get_model_file_path, PROCESSED_DATA_DIR, MODEL_DIR
+
 # ── Flask App Setup ──────────────────────────────────────────────────────────
 app = Flask(__name__)
 CORS(app)
-
-# Health check endpoint for deployment platforms
-@app.route('/health')
-def health_check():
-    return jsonify({
-        'status': 'healthy',
-        'timestamp': datetime.now().isoformat(),
-        'model_loaded': MODEL_LOADED
-    })
 
 # ── Global State ─────────────────────────────────────────────────────────────
 hybrid_recommender = None
@@ -43,14 +37,29 @@ poster_cache = {}
 def load_poster_cache():
     """Load the TMDB poster cache."""
     global poster_cache
-    cache_path = 'data/processed/poster_cache.json'
-    if os.path.exists(cache_path):
-        import json
-        with open(cache_path, 'r') as f:
-            poster_cache = json.load(f)
-        print(f"📷 Loaded {len(poster_cache)} poster paths from cache")
-    else:
-        print("⚠️  No poster cache found. Run fetch_posters.py to fetch movie posters.")
+    cache_path = get_processed_file_path('poster_cache.json')
+    # Also try local data directory path as fallback
+    local_cache_path = os.path.join('data', 'processed', 'poster_cache.json')
+    
+    try:
+        if os.path.exists(cache_path):
+            import json
+            with open(cache_path, 'r') as f:
+                poster_cache = json.load(f)
+            print(f"📷 Loaded {len(poster_cache)} poster paths from cache: {cache_path}")
+        elif os.path.exists(local_cache_path):
+            import json
+            with open(local_cache_path, 'r') as f:
+                poster_cache = json.load(f)
+            print(f"📷 Loaded {len(poster_cache)} poster paths from local cache: {local_cache_path}")
+        else:
+            print("⚠️  No poster cache found. Run fetch_posters.py to fetch movie posters.")
+            print(f"   Looked for: {cache_path}")
+            print(f"   And: {local_cache_path}")
+            poster_cache = {}
+    except Exception as e:
+        print(f"❌ Error loading poster cache: {e}")
+        poster_cache = {}
 
 
 def load_models():
@@ -62,15 +71,17 @@ def load_models():
 
         print("🧠 Loading trained hybrid recommendation system...")
         hybrid_recommender, train_df, movies_df = load_hybrid_system(
-            data_dir='data/processed',
-            model_dir='src/models/saved'
+            data_dir=PROCESSED_DATA_DIR,
+            model_dir=MODEL_DIR
         )
 
         # Load extras
-        if os.path.exists('data/processed/test_ratings.csv'):
-            test_df = pd.read_csv('data/processed/test_ratings.csv')
-        if os.path.exists('data/processed/tags_cleaned.csv'):
-            tags_df = pd.read_csv('data/processed/tags_cleaned.csv')
+        test_ratings_path = get_processed_file_path('test_ratings.csv')
+        if os.path.exists(test_ratings_path):
+            test_df = pd.read_csv(test_ratings_path)
+        tags_path = get_processed_file_path('tags_cleaned.csv')
+        if os.path.exists(tags_path):
+            tags_df = pd.read_csv(tags_path)
 
         MODEL_LOADED = True
         print(f"✅ Models loaded! {len(movies_df):,} movies | "
@@ -82,11 +93,13 @@ def load_models():
 
         # Load raw data at minimum
         try:
-            if os.path.exists('data/processed/movies_cleaned.csv'):
-                movies_df = pd.read_csv('data/processed/movies_cleaned.csv')
+            movies_path = get_processed_file_path('movies_cleaned.csv')
+            if os.path.exists(movies_path):
+                movies_df = pd.read_csv(movies_path)
                 print(f"  Loaded {len(movies_df):,} movies (data-only mode)")
-            if os.path.exists('data/processed/train_ratings.csv'):
-                train_df = pd.read_csv('data/processed/train_ratings.csv')
+            train_path = get_processed_file_path('train_ratings.csv')
+            if os.path.exists(train_path):
+                train_df = pd.read_csv(train_path)
                 print(f"  Loaded {len(train_df):,} ratings")
         except Exception as e2:
             print(f"  Data loading also failed: {e2}")
@@ -99,9 +112,13 @@ def load_models():
 
 def get_poster_path(tmdb_id):
     """Get poster path for a movie from cache."""
-    if tmdb_id is None:
+    if tmdb_id is None or pd.isna(tmdb_id):
         return None
-    return poster_cache.get(str(int(tmdb_id)))
+    try:
+        tmdb_id_str = str(int(float(tmdb_id)))
+        return poster_cache.get(tmdb_id_str)
+    except (ValueError, TypeError):
+        return None
 
 
 def movie_to_dict(row):
@@ -180,8 +197,124 @@ def health_check():
         'movies_count': len(movies_df) if movies_df is not None else 0,
         'ratings_count': len(train_df) if train_df is not None else 0,
         'users_count': int(train_df['userId'].nunique()) if train_df is not None else 0,
+        'poster_cache_size': len(poster_cache),
         'message': 'ReelSense++ API with real ML models' if MODEL_LOADED else 'Data-only mode',
     })
+
+
+@app.route('/api/debug/poster/<int:tmdb_id>')
+def debug_poster(tmdb_id):
+    """Debug poster cache lookup."""
+    return jsonify({
+        'tmdb_id': tmdb_id,
+        'tmdb_id_str': str(tmdb_id),
+        'poster_cache_size': len(poster_cache),
+        'poster_path': poster_cache.get(str(tmdb_id)),
+        'sample_keys': list(poster_cache.keys())[:5] if poster_cache else [],
+    })
+
+
+@app.route('/api/recommendations/<int:user_id>/mood')
+def get_mood_recommendations(user_id):
+    """
+    Get mood-based recommendations for a user.
+    Query params: mood, top_k
+    """
+    try:
+        mood = request.args.get('mood', 'happy').lower()
+        top_k = request.args.get('top_k', 10, type=int)
+        
+        # Define mood-to-genre mappings
+        mood_genres = {
+            'sad': ['Comedy', 'Animation', 'Musical', 'Family'],
+            'happy': ['Action', 'Adventure', 'Comedy'],
+            'romantic': ['Romance', 'Drama'],
+            'excited': ['Action', 'Adventure', 'Thriller', 'Sci-Fi'],
+            'calm': ['Drama', 'Documentary', 'Mystery'],
+            'nostalgic': ['Drama', 'History', 'War'],
+            'scared': ['Horror', 'Thriller'],
+            'curious': ['Sci-Fi', 'Mystery', 'Documentary', 'Fantasy']
+        }
+        
+        if movies_df is None:
+            return jsonify({'error': 'No data loaded'}), 503
+            
+        # Get preferred genres for the mood
+        preferred_genres = mood_genres.get(mood, ['Comedy', 'Drama'])
+        
+        # Filter movies by genre
+        mood_movies = movies_df[
+            movies_df['genres'].fillna('').apply(
+                lambda x: any(genre in x for genre in preferred_genres)
+            )
+        ].copy()
+        
+        if mood_movies.empty:
+            return jsonify({'error': f'No movies found for mood: {mood}'}), 404
+            
+        # If we have a trained model, get personalized scores
+        if MODEL_LOADED and hybrid_recommender is not None:
+            # Get user's rating history to avoid already seen movies
+            user_ratings = train_df[train_df['userId'] == user_id]['movieId'].tolist() if train_df is not None else []
+            
+            # Remove already rated movies
+            mood_movies = mood_movies[~mood_movies['movieId'].isin(user_ratings)]
+            
+            if mood_movies.empty:
+                return jsonify({'error': f'No new {mood} movies found for user'}), 404
+            
+            # Get predictions for mood-filtered movies
+            mood_recs = []
+            for _, row in mood_movies.iterrows():
+                try:
+                    # Get prediction from hybrid model
+                    prediction = hybrid_recommender.cf_model.predict(user_id, row['movieId'])
+                    content_score = hybrid_recommender.content_model.get_user_content_score(
+                        user_id, row['movieId'], train_df
+                    ) if train_df is not None else 0.5
+                    
+                    base = movie_to_dict(row)
+                    base.update({
+                        'predicted_rating': float(prediction),
+                        'confidence': min(0.8, abs(prediction - 2.5) / 2.5),  # Simple confidence
+                        'mood_match': mood,
+                        'explanation': f"Perfect for when you're {mood}! This {'/'.join(preferred_genres[:2]).lower()} movie matches your mood."
+                    })
+                    mood_recs.append(base)
+                except Exception:
+                    # Skip if prediction fails
+                    continue
+                    
+            # Sort by predicted rating and take top_k
+            mood_recs.sort(key=lambda x: x['predicted_rating'], reverse=True)
+            mood_recs = mood_recs[:top_k]
+            
+        else:
+            # Fallback: use popularity-based filtering
+            mood_movies = mood_movies.sort_values(['avg_rating', 'num_ratings'], 
+                                                ascending=[False, False])
+            mood_recs = []
+            for _, row in mood_movies.head(top_k).iterrows():
+                base = movie_to_dict(row)
+                base.update({
+                    'predicted_rating': float(row.get('avg_rating', 3.5)),
+                    'confidence': 0.6,
+                    'mood_match': mood,
+                    'explanation': f"Popular {'/'.join(preferred_genres[:2]).lower()} movie perfect for your {mood} mood!"
+                })
+                mood_recs.append(base)
+        
+        return jsonify({
+            'user_id': user_id,
+            'mood': mood,
+            'preferred_genres': preferred_genres,
+            'recommendations': mood_recs,
+            'count': len(mood_recs),
+            'timestamp': datetime.now().isoformat(),
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/api/recommendations/<int:user_id>')
@@ -744,13 +877,20 @@ def internal_error(error):
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
+# Load models and data
+load_models()
+
+# ── Main ─────────────────────────────────────────────────────────────────────
+
 if __name__ == '__main__':
     print("=" * 60)
     print("🎬 ReelSense++ v2.0 - Backend API Server")
     print("   Powered by real ML models (SVD + Content-Based)")
     print("=" * 60)
 
-    load_models()
+    # Ensure poster cache is loaded (already done in load_models, but just to be sure)
+    if not poster_cache:
+        load_poster_cache()
 
     port = int(os.environ.get('PORT', 5000))
     debug = os.environ.get('FLASK_ENV') == 'development'

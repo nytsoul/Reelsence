@@ -21,3 +21,6 @@ redis==4.6.0
 
 # Development utilities
 python-dotenv==1.0.0
+
+# Machine Learning Dependencies
+scikit-learn==1.8.0
