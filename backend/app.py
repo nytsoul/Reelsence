@@ -78,6 +78,9 @@ def movie_to_dict(row):
         genres_list = [g for g in genres_raw.split('|') if g and g != '(no genres listed)']
     else:
         genres_list = []
+    
+    # TMDB ID for poster fetching
+    tmdb_id = int(row['tmdbId']) if pd.notna(row.get('tmdbId')) else None
 
     return {
         'movieId': int(row['movieId']),
@@ -88,9 +91,7 @@ def movie_to_dict(row):
         'avg_rating': round(float(row.get('avg_rating', 0)), 2),
         'num_ratings': int(row.get('num_ratings', 0)),
         'imdbId': str(int(row['imdbId'])).zfill(7) if pd.notna(row.get('imdbId')) else None,
-        'tmdbId': int(row['tmdbId']) if pd.notna(row.get('tmdbId')) else None,
-        'poster': f"https://image.tmdb.org/t/p/w500/{int(row.get('tmdbId', 0))}.jpg"
-                  if pd.notna(row.get('tmdbId')) else None,
+        'tmdbId': tmdb_id,
         'imdb_url': f"https://www.imdb.com/title/tt{str(int(row['imdbId'])).zfill(7)}/"
                     if pd.notna(row.get('imdbId')) else None,
     }

@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Star, Film, Calendar, Tag, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+// TMDB Image base URL - no API key needed for images
+const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
+
 const MoviePoster = ({ movie }) => {
+  const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
   const getGenreGradient = (genres) => {
     if (!genres || genres.length === 0) return 'from-bg-elevated to-bg-hover';
     
@@ -22,11 +28,43 @@ const MoviePoster = ({ movie }) => {
     return genreColors[genres[0]] || 'from-bg-elevated to-bg-hover';
   };
 
+  // Generate poster URL from TMDB ID
+  const getPosterUrl = () => {
+    if (movie.poster_path) {
+      return `${TMDB_IMAGE_BASE}${movie.poster_path}`;
+    }
+    // Fallback: Use TMDB movie ID to construct potential poster URL
+    // This will be fetched from the backend with poster_path
+    return null;
+  };
+
+  const posterUrl = getPosterUrl();
+  const showFallback = !posterUrl || imageError;
+
   return (
     <div className={`aspect-[2/3] bg-gradient-to-br ${getGenreGradient(movie.genres)} rounded-xl overflow-hidden relative group`}>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <Film className="w-16 h-16 text-white opacity-40" />
-      </div>
+      {/* Actual Poster Image */}
+      {posterUrl && !imageError && (
+        <img
+          src={posterUrl}
+          alt={movie.title}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageError(true)}
+        />
+      )}
+      
+      {/* Fallback - Genre gradient with icon */}
+      {(showFallback || !imageLoaded) && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Film className="w-16 h-16 text-white opacity-40" />
+        </div>
+      )}
+      
+      {/* Overlay gradient for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      {/* Title overlay on hover */}
       <div className="absolute bottom-0 left-0 right-0 p-3 poster-overlay">
         <h4 className="text-white font-semibold text-sm line-clamp-2">{movie.title}</h4>
       </div>
