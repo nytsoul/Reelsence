@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
   Film, 
   Sparkles, 
@@ -9,10 +9,10 @@ import {
   Heart,
   ArrowRight,
   Users,
-  Trophy,
-  Zap
+  Trophy
 } from 'lucide-react';
 import MovieSearchBar from '../components/MovieSearchBar';
+import { safeScrollIntoView, devLog } from '../utils/production';
 
 const HomePage = () => {
   const [userId, setUserId] = useState('');
@@ -27,6 +27,7 @@ const HomePage = () => {
     }
     
     setIsLoading(true);
+    devLog('Getting recommendations for user:', userId);
     // Simulate a small delay for better UX
     setTimeout(() => {
       navigate(`/recommendations/${userId}`);
@@ -97,27 +98,27 @@ const HomePage = () => {
               {/* Hero Text */}
               <div className="space-y-8 z-10">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-accent-red font-medium">
+                  <div className="flex items-center gap-2 text-accent-red font-medium animate-fade-in-down delay-200">
                     <Film className="w-5 h-5" />
                     <span>ReelSense++</span>
                   </div>
-                  <h1 className="text-5xl md:text-7xl font-heading font-black leading-tight">
+                  <h1 className="text-5xl md:text-7xl font-heading font-black leading-tight animate-fade-in-up delay-300">
                     <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-transparent bg-clip-text">
                       Explainable AI Movie
                     </span>
                     <br />
                     <span className="text-white">Recommendations</span>
                   </h1>
-                  <p className="text-gray-400 text-lg max-w-xl leading-relaxed">
+                  <p className="text-gray-400 text-lg max-w-xl leading-relaxed animate-fade-in-up delay-500">
                     Powered by hybrid ML • Diversity aware • Transparent
                   </p>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
                   <button
-                    onClick={() => document.getElementById('search-section').scrollIntoView({ behavior: 'smooth' })}
-                    className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl font-semibold text-white shadow-lg hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 overflow-hidden"
+                    onClick={() => safeScrollIntoView('get-started')}
+                    className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl font-semibold text-white shadow-lg hover:shadow-red-500/50 transition-all duration-500 hover:scale-110 hover:-translate-y-1 overflow-hidden transform"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       <Film className="w-5 h-5" />
@@ -127,8 +128,8 @@ const HomePage = () => {
                   </button>
                   
                   <button
-                    onClick={() => document.getElementById('get-started').scrollIntoView({ behavior: 'smooth' })}
-                    className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl font-semibold text-white hover:bg-white/20 transition-all duration-300"
+                    onClick={() => safeScrollIntoView('get-started')}
+                    className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl font-semibold text-white hover:bg-white/20 transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:border-white/40 transform"
                   >
                     Get Recommendations
                   </button>
@@ -136,10 +137,10 @@ const HomePage = () => {
               </div>
 
               {/* Hero Visual - Movie Posters Showcase */}
-              <div className="relative h-[600px] hidden lg:block">
+              <div className="relative h-[600px] hidden lg:block animate-fade-in delay-600">
                 <div className="absolute inset-0 flex items-center justify-center">
                   {/* Center featured poster */}
-                  <div className="relative w-64 h-96 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 z-20 border-2 border-orange-500/50">
+                  <div className="relative w-64 h-96 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-110 transition-all duration-700 z-20 border-2 border-orange-500/50 animate-bounce-in delay-700">
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-900 to-red-900">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Film className="w-24 h-24 text-white opacity-40" />
@@ -156,7 +157,7 @@ const HomePage = () => {
                   </div>
 
                   {/* Left poster */}
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform -rotate-12 hover:rotate-0 transition-all duration-500 z-10 opacity-80 hover:opacity-100">
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform -rotate-12 hover:rotate-0 hover:scale-110 transition-all duration-700 z-10 opacity-80 hover:opacity-100 animate-slide-in-left delay-800">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-purple-900">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Film className="w-16 h-16 text-white opacity-30" />
@@ -165,7 +166,7 @@ const HomePage = () => {
                   </div>
 
                   {/* Right poster */}
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform rotate-12 hover:rotate-0 transition-all duration-500 z-10 opacity-80 hover:opacity-100">
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform rotate-12 hover:rotate-0 hover:scale-110 transition-all duration-700 z-10 opacity-80 hover:opacity-100 animate-slide-in-right delay-800">
                     <div className="absolute inset-0 bg-gradient-to-br from-red-900 to-pink-900">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Film className="w-16 h-16 text-white opacity-30" />
@@ -204,10 +205,9 @@ const HomePage = () => {
             {stats.map(({ label, value, icon: Icon }, index) => (
               <div 
                 key={label} 
-                className="relative group"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`relative group animate-scale-in delay-${(index + 2) * 100}`}
               >
-                <div className="relative bg-gradient-to-br from-red-950/50 to-black border border-red-900/30 rounded-2xl p-6 hover:border-red-500/50 transition-all duration-300 hover:scale-105">
+                <div className="relative bg-gradient-to-br from-red-950/50 to-black border border-red-900/30 rounded-2xl p-6 hover:border-red-500/50 transition-all duration-500 hover:scale-110 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-500/20">
                   {/* Icon */}
                   <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-orange-600 mb-4">
                     <Icon className="w-6 h-6 text-white" />
@@ -233,7 +233,7 @@ const HomePage = () => {
       <section id="get-started" className="py-20">
         <div className="w-full px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
-            <div className="space-y-4">
+            <div className="space-y-4 animate-fade-in-up delay-200">
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-txt-primary">
                 Discover Your Next Favorite Movie
               </h2>
@@ -243,7 +243,7 @@ const HomePage = () => {
             </div>
 
             {/* Search Bar Option */}
-            <div className="max-w-xl mx-auto mb-8">
+            <div className="max-w-xl mx-auto mb-8 animate-fade-in-up delay-400">
               <div className="text-sm text-txt-muted mb-3 flex items-center justify-center gap-2">
                 <Film className="w-4 h-4" />
                 <span>Search our database of 9,742 movies</span>
@@ -259,7 +259,7 @@ const HomePage = () => {
             </div>
 
             {/* User Input Form */}
-            <div className="max-w-md mx-auto">
+            <div className="max-w-md mx-auto animate-fade-in-up delay-600">
               <div className="text-sm text-txt-muted mb-3">
                 Get AI-powered personalized recommendations
               </div>
@@ -280,7 +280,7 @@ const HomePage = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="btn-primary w-full text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-primary w-full text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:shadow-2xl hover:shadow-red-500/30 hover:glow-red"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -308,7 +308,7 @@ const HomePage = () => {
       {/* Features Section */}
       <section className="py-20 bg-bg-card">
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-16">
+          <div className="text-center space-y-4 mb-16 animate-fade-in-up delay-200">
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-txt-primary">
               Why ReelSense++ is Different
             </h2>
@@ -321,19 +321,18 @@ const HomePage = () => {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className={`card p-6 hover:shadow-glow transition-all duration-300 animate-slide-up`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`card p-6 hover:shadow-glow transition-all duration-700 animate-fade-in-up hover:scale-110 hover:-translate-y-3 hover:shadow-2xl group cursor-pointer delay-${(index + 4) * 100}`}
               >
                 <div className="space-y-4">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-${feature.color} bg-opacity-20`}>
-                    <feature.icon className={`w-6 h-6 text-${feature.color}`} />
+                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-${feature.color} bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-500 group-hover:scale-125`}>
+                    <feature.icon className={`w-6 h-6 text-${feature.color} group-hover:animate-pulse`} />
                   </div>
                   
-                  <h3 className="text-xl font-heading font-semibold text-txt-primary">
+                  <h3 className="text-xl font-heading font-semibold text-txt-primary group-hover:text-white transition-colors duration-300">
                     {feature.title}
                   </h3>
                   
-                  <p className="text-txt-secondary text-sm leading-relaxed">
+                  <p className="text-txt-secondary text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
                     {feature.description}
                   </p>
                 </div>

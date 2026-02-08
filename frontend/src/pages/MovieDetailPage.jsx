@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Star, 
-  Calendar, 
-  Tag, 
+import {
+  ArrowLeft,
+  Star,
+  Calendar,
+  Tag,
   ExternalLink,
   Lightbulb,
   Brain,
@@ -22,13 +22,13 @@ const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 const MoviePoster = ({ movie }) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  
+
   const getGenreGradient = (genres) => {
     if (!genres || genres.length === 0) return 'from-bg-elevated to-bg-hover';
-    
+
     const genreColors = {
       'Action': 'from-red-900 to-red-700',
-      'Adventure': 'from-orange-900 to-orange-700', 
+      'Adventure': 'from-orange-900 to-orange-700',
       'Comedy': 'from-yellow-900 to-yellow-700',
       'Drama': 'from-blue-900 to-blue-700',
       'Horror': 'from-gray-900 to-gray-700',
@@ -38,7 +38,7 @@ const MoviePoster = ({ movie }) => {
       'Animation': 'from-cyan-900 to-cyan-700',
       'Fantasy': 'from-indigo-900 to-indigo-700',
     };
-    
+
     return genreColors[genres[0]] || 'from-bg-elevated to-bg-hover';
   };
 
@@ -64,14 +64,14 @@ const MoviePoster = ({ movie }) => {
           onError={() => setImageError(true)}
         />
       )}
-      
+
       {/* Fallback - Genre gradient with icon */}
       {(showFallback || !imageLoaded) && (
         <div className="absolute inset-0 flex items-center justify-center">
           <Film className="w-24 h-24 text-white opacity-40" />
         </div>
       )}
-      
+
       {/* Title overlay */}
       <div className="absolute bottom-0 left-0 right-0 p-4 poster-overlay">
         <h3 className="text-white font-semibold text-lg line-clamp-2">{movie.title}</h3>
@@ -83,7 +83,7 @@ const MoviePoster = ({ movie }) => {
 const StarRating = ({ rating, size = 'md' }) => {
   const stars = Math.round(rating);
   const iconSize = size === 'lg' ? 'w-5 h-5' : 'w-4 h-4';
-  
+
   return (
     <div className="flex items-center gap-1">
       <div className="flex">
@@ -112,7 +112,7 @@ const ExplanationCard = ({ explanation, level, icon: Icon, color }) => {
           {level} Explanation
         </h3>
       </div>
-      
+
       <p className="text-txt-secondary leading-relaxed">
         {explanation}
       </p>
@@ -202,212 +202,253 @@ const MovieDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-6xl mx-auto">
-          <Link 
-            to="/" 
-            className="inline-flex items-center gap-2 text-txt-secondary hover:text-txt-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
+      {/* Cinematic Backdrop Section */}
+      <div className="relative h-96 overflow-hidden">
+        {/* Backdrop Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-red-950/40 via-black to-purple-950/30">
+          <div className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(ellipse at top, rgba(229, 9, 20, 0.2) 0%, transparent 60%)`,
+            }}
+          />
+        </div>
 
-        {/* Movie Header */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          {/* Movie Poster */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <MoviePoster movie={movie} />
-              
-              {/* External Links */}
-              {(movie.imdbId || movie.tmdbId) && (
-                <div className="mt-6 space-y-3">
-                  <h4 className="font-heading font-semibold text-txt-primary">External Links</h4>
-                  <div className="space-y-2">
-                    {movie.imdbId && (
-                      <a
-                        href={`https://www.imdb.com/title/tt${movie.imdbId.toString().padStart(7, '0')}/`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-txt-secondary hover:text-accent-gold transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        View on IMDb
-                      </a>
-                    )}
-                    {movie.tmdbId && (
-                      <a
-                        href={`https://www.themoviedb.org/movie/${movie.tmdbId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-txt-secondary hover:text-accent-blue transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        View on TMDb
-                      </a>
-                    )}
-                  </div>
+        {/* Gradient Overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/50 to-bg-primary" />
+
+        {/* Content */}
+        <div className="relative h-full w-full px-4 sm:px-6 lg:px-8 flex items-end pb-12">
+          <div className="max-w-6xl mx-auto w-full">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-txt-secondary hover:text-txt-primary transition-colors mb-4 glass px-4 py-2 rounded-lg"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </Link>
+
+            <h1 className="text-4xl md:text-6xl font-heading font-bold text-white leading-tight drop-shadow-lg">
+              {cleanTitle}
+            </h1>
+
+            <div className="flex flex-wrap items-center gap-4 mt-4">
+              {year && (
+                <div className="flex items-center gap-2 text-gray-300 glass px-3 py-1.5 rounded-lg">
+                  <Calendar className="w-4 h-4" />
+                  <span>{year}</span>
+                </div>
+              )}
+
+              {movie.avg_rating && (
+                <div className="glass px-3 py-1.5 rounded-lg">
+                  <StarRating rating={movie.avg_rating} size="lg" />
                 </div>
               )}
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Movie Info */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Title & Basic Info */}
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-heading font-bold text-txt-primary leading-tight">
-                {cleanTitle}
-              </h1>
-              
-              <div className="flex flex-wrap items-center gap-4">
-                {year && (
-                  <div className="flex items-center gap-2 text-txt-secondary">
-                    <Calendar className="w-4 h-4" />
-                    <span>{year}</span>
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-12 -mt-20">
+        <div className="max-w-6xl mx-auto">
+
+
+          {/* Movie Header */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-12">
+            {/* Movie Poster */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <MoviePoster movie={movie} />
+
+                {/* External Links */}
+                {(movie.imdbId || movie.tmdbId) && (
+                  <div className="mt-6 space-y-3">
+                    <h4 className="font-heading font-semibold text-txt-primary">External Links</h4>
+                    <div className="space-y-2">
+                      {movie.imdbId && (
+                        <a
+                          href={`https://www.imdb.com/title/tt${movie.imdbId.toString().padStart(7, '0')}/`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-txt-secondary hover:text-accent-gold transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          View on IMDb
+                        </a>
+                      )}
+                      {movie.tmdbId && (
+                        <a
+                          href={`https://www.themoviedb.org/movie/${movie.tmdbId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-txt-secondary hover:text-accent-blue transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          View on TMDb
+                        </a>
+                      )}
+                    </div>
                   </div>
                 )}
-                
-                {movie.avg_rating && (
-                  <StarRating rating={movie.avg_rating} size="lg" />
-                )}
               </div>
-
-              {/* Genres */}
-              {movie.genres && movie.genres.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {movie.genres.map((genre, index) => (
-                    <span 
-                      key={genre}
-                      className="flex items-center gap-1 px-3 py-1.5 bg-accent-blue bg-opacity-20 text-accent-blue rounded-lg font-medium"
-                    >
-                      <Tag className="w-3 h-3" />
-                      {genre}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
 
-            {/* Overview */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-heading font-semibold text-txt-primary">Overview</h2>
-              
-              {movie.tags && movie.tags.length > 0 ? (
-                <div className="space-y-4">
-                  <p className="text-txt-secondary leading-relaxed">
-                    This movie has been tagged by users with themes and elements including: {' '}
-                    <span className="text-txt-primary">
-                      {movie.tags.slice(0, 10).join(', ')}
-                    </span>
-                    {movie.tags.length > 10 && <span className="text-txt-muted"> and {movie.tags.length - 10} more</span>}
-                  </p>
-                  
+            {/* Movie Info */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Title & Basic Info */}
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-5xl font-heading font-bold text-txt-primary leading-tight">
+                  {cleanTitle}
+                </h1>
+
+                <div className="flex flex-wrap items-center gap-4">
+                  {year && (
+                    <div className="flex items-center gap-2 text-txt-secondary">
+                      <Calendar className="w-4 h-4" />
+                      <span>{year}</span>
+                    </div>
+                  )}
+
+                  {movie.avg_rating && (
+                    <StarRating rating={movie.avg_rating} size="lg" />
+                  )}
+                </div>
+
+                {/* Genres */}
+                {movie.genres && movie.genres.length > 0 && (
                   <div className="flex flex-wrap gap-2">
-                    {movie.tags.slice(0, 8).map((tag, index) => (
-                      <span 
-                        key={index}
-                        className="px-2 py-1 bg-bg-hover text-txt-secondary text-sm rounded-lg"
+                    {movie.genres.map((genre, index) => (
+                      <span
+                        key={genre}
+                        className="flex items-center gap-1 px-3 py-1.5 bg-accent-blue bg-opacity-20 text-accent-blue rounded-lg font-medium"
                       >
-                        {tag}
+                        <Tag className="w-3 h-3" />
+                        {genre}
                       </span>
                     ))}
                   </div>
+                )}
+              </div>
+
+              {/* Overview */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-heading font-semibold text-txt-primary">Overview</h2>
+
+                {movie.tags && movie.tags.length > 0 ? (
+                  <div className="space-y-4">
+                    <p className="text-txt-secondary leading-relaxed">
+                      This movie has been tagged by users with themes and elements including: {' '}
+                      <span className="text-txt-primary">
+                        {movie.tags.slice(0, 10).join(', ')}
+                      </span>
+                      {movie.tags.length > 10 && <span className="text-txt-muted"> and {movie.tags.length - 10} more</span>}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {movie.tags.slice(0, 8).map((tag, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 bg-bg-hover text-txt-secondary text-sm rounded-lg"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-txt-secondary">
+                    No detailed overview available for this movie. Check external links for more information.
+                  </p>
+                )}
+              </div>
+
+              {/* Movie Stats */}
+              {(movie.rating_count || movie.avg_rating) && (
+                <div className="card p-6">
+                  <h3 className="font-heading font-semibold text-txt-primary mb-4">Movie Statistics</h3>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {movie.rating_count && (
+                      <div className="text-center space-y-1">
+                        <div className="text-2xl font-heading font-bold text-accent-gold">
+                          {movie.rating_count.toLocaleString()}
+                        </div>
+                        <div className="text-sm text-txt-secondary">Total Ratings</div>
+                      </div>
+                    )}
+
+                    {movie.avg_rating && (
+                      <div className="text-center space-y-1">
+                        <div className="text-2xl font-heading font-bold text-accent-red">
+                          {movie.avg_rating.toFixed(1)}/5
+                        </div>
+                        <div className="text-sm text-txt-secondary">Average Rating</div>
+                      </div>
+                    )}
+
+                    {movie.tags && (
+                      <div className="text-center space-y-1">
+                        <div className="text-2xl font-heading font-bold text-accent-green">
+                          {movie.tags.length}
+                        </div>
+                        <div className="text-sm text-txt-secondary">User Tags</div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              ) : (
-                <p className="text-txt-secondary">
-                  No detailed overview available for this movie. Check external links for more information.
-                </p>
               )}
             </div>
-
-            {/* Movie Stats */}
-            {(movie.rating_count || movie.avg_rating) && (
-              <div className="card p-6">
-                <h3 className="font-heading font-semibold text-txt-primary mb-4">Movie Statistics</h3>
-                
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {movie.rating_count && (
-                    <div className="text-center space-y-1">
-                      <div className="text-2xl font-heading font-bold text-accent-gold">
-                        {movie.rating_count.toLocaleString()}
-                      </div>
-                      <div className="text-sm text-txt-secondary">Total Ratings</div>
-                    </div>
-                  )}
-                  
-                  {movie.avg_rating && (
-                    <div className="text-center space-y-1">
-                      <div className="text-2xl font-heading font-bold text-accent-red">
-                        {movie.avg_rating.toFixed(1)}/5
-                      </div>
-                      <div className="text-sm text-txt-secondary">Average Rating</div>
-                    </div>
-                  )}
-                  
-                  {movie.tags && (
-                    <div className="text-center space-y-1">
-                      <div className="text-2xl font-heading font-bold text-accent-green">
-                        {movie.tags.length}
-                      </div>
-                      <div className="text-sm text-txt-secondary">User Tags</div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
-        </div>
 
-        {/* Why Recommended Section (Mock) */}
-        <div className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-heading font-bold text-txt-primary mb-6">
-            Why This Was Recommended
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <ExplanationCard
-              explanation="This movie matches your preference for highly-rated films in your favorite genres."
-              level="simple"
-              icon={Lightbulb}
-              color="accent-gold"
-            />
-            
-            <ExplanationCard
-              explanation="Based on collaborative filtering, users with similar tastes to yours have rated this movie highly (4.2+ stars on average)."
-              level="intermediate"  
-              icon={Brain}
-              color="accent-blue"
-            />
-            
-            <ExplanationCard
-              explanation="Hybrid score: CF component (0.78) + Content similarity (0.65) weighted by model confidence. Genre overlap with your top preferences: 85%."
-              level="advanced"
-              icon={Layers}
-              color="accent-red"
-            />
-          </div>
-        </div>
-
-        {/* Similar Movies */}
-        {similarMovies.length > 0 && (
-          <div>
+          {/* Why Recommended Section (Mock) */}
+          <div className="mb-12">
             <h2 className="text-2xl md:text-3xl font-heading font-bold text-txt-primary mb-6">
-              Similar Movies
+              Why This Was Recommended
             </h2>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {similarMovies.map((movie, index) => (
-                <div
-                  key={movie.movieId}
-                  className={`animate-slide-up stagger-${Math.min(index + 1, 6)}`}
-                >
-                  <MovieCard movie={movie} showExplanation={false} />
-                </div>
-              ))}
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <ExplanationCard
+                explanation="This movie matches your preference for highly-rated films in your favorite genres."
+                level="simple"
+                icon={Lightbulb}
+                color="accent-gold"
+              />
+
+              <ExplanationCard
+                explanation="Based on collaborative filtering, users with similar tastes to yours have rated this movie highly (4.2+ stars on average)."
+                level="intermediate"
+                icon={Brain}
+                color="accent-blue"
+              />
+
+              <ExplanationCard
+                explanation="Hybrid score: CF component (0.78) + Content similarity (0.65) weighted by model confidence. Genre overlap with your top preferences: 85%."
+                level="advanced"
+                icon={Layers}
+                color="accent-red"
+              />
             </div>
           </div>
-        )}
+
+          {/* Similar Movies */}
+          {similarMovies.length > 0 && (
+            <div>
+              <h2 className="text-2xl md:text-3xl font-heading font-bold text-txt-primary mb-6">
+                Similar Movies
+              </h2>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {similarMovies.map((movie, index) => (
+                  <div
+                    key={movie.movieId}
+                    className={`animate-slide-up stagger-${Math.min(index + 1, 6)}`}
+                  >
+                    <MovieCard movie={movie} showExplanation={false} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

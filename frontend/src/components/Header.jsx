@@ -15,12 +15,12 @@ const Header = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="bg-bg-card border-b border-bg-hover sticky top-0 z-50">
+    <header className="glass border-b border-bg-hover sticky top-0 z-50 backdrop-blur-xl">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="flex items-center gap-3 text-xl font-heading font-bold hover:text-accent-red transition-colors flex-shrink-0"
           >
             <div className="flex items-center gap-2">
@@ -51,11 +51,10 @@ const Header = () => {
               <Link
                 key={path}
                 to={path}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive(path)
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 ${isActive(path)
                     ? 'text-accent-red bg-accent-red bg-opacity-10 shadow-glow'
                     : 'text-txt-secondary hover:text-txt-primary hover:bg-bg-hover'
-                }`}
+                  }`}
               >
                 <Icon className="w-4 h-4" />
                 <span className="hidden sm:inline">{label}</span>
