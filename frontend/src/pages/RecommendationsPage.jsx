@@ -175,9 +175,8 @@ const RecommendationsPage = () => {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-6xl mx-auto">
           <Link 
             to="/" 
             className="inline-flex items-center gap-2 text-txt-secondary hover:text-txt-primary transition-colors mb-4"
