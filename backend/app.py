@@ -28,6 +28,20 @@ train_df = None
 test_df = None
 tags_df = None
 MODEL_LOADED = False
+poster_cache = {}
+
+
+def load_poster_cache():
+    """Load the TMDB poster cache."""
+    global poster_cache
+    cache_path = 'data/processed/poster_cache.json'
+    if os.path.exists(cache_path):
+        import json
+        with open(cache_path, 'r') as f:
+            poster_cache = json.load(f)
+        print(f"📷 Loaded {len(poster_cache)} poster paths from cache")
+    else:
+        print("⚠️  No poster cache found. Run fetch_posters.py to fetch movie posters.")
 
 
 def load_models():
@@ -67,9 +81,19 @@ def load_models():
                 print(f"  Loaded {len(train_df):,} ratings")
         except Exception as e2:
             print(f"  Data loading also failed: {e2}")
+    
+    # Load poster cache after movies
+    load_poster_cache()
 
 
 # ── Helper Functions ─────────────────────────────────────────────────────────
+
+def get_poster_path(tmdb_id):
+    """Get poster path for a movie from cache."""
+    if tmdb_id is None:
+        return None
+    return poster_cache.get(str(int(tmdb_id)))
+
 
 def movie_to_dict(row):
     """Convert a movies_df row to a JSON-friendly dict."""
@@ -81,6 +105,9 @@ def movie_to_dict(row):
     
     # TMDB ID for poster fetching
     tmdb_id = int(row['tmdbId']) if pd.notna(row.get('tmdbId')) else None
+    
+    # Get poster path from cache
+    poster_path = get_poster_path(tmdb_id)
 
     return {
         'movieId': int(row['movieId']),
@@ -92,6 +119,7 @@ def movie_to_dict(row):
         'num_ratings': int(row.get('num_ratings', 0)),
         'imdbId': str(int(row['imdbId'])).zfill(7) if pd.notna(row.get('imdbId')) else None,
         'tmdbId': tmdb_id,
+        'poster_path': poster_path,
         'imdb_url': f"https://www.imdb.com/title/tt{str(int(row['imdbId'])).zfill(7)}/"
                     if pd.notna(row.get('imdbId')) else None,
     }
