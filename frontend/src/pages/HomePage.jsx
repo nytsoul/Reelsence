@@ -12,6 +12,7 @@ import {
   Trophy,
   Zap
 } from 'lucide-react';
+import MovieSearchBar from '../components/MovieSearchBar';
 
 const HomePage = () => {
   const [userId, setUserId] = useState('');
@@ -68,88 +69,127 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-bg-primary">
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, #e50914 0%, transparent 50%), 
-                             radial-gradient(circle at 75% 75%, #f5c518 0%, transparent 50%)`,
-          }} />
+    <div className="min-h-screen bg-black">
+      {/* Hero Section with Cinematic Background */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-red-950/30 via-black to-orange-950/20">
+          <div className="absolute inset-0" 
+            style={{
+              backgroundImage: `radial-gradient(ellipse at top right, rgba(229, 9, 20, 0.15) 0%, transparent 50%),
+                               radial-gradient(ellipse at bottom left, rgba(255, 140, 0, 0.15) 0%, transparent 50%),
+                               radial-gradient(circle at center, rgba(139, 0, 0, 0.05) 0%, transparent 70%)`,
+            }}
+          />
+          {/* Particles effect */}
+          <div className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: 'radial-gradient(2px 2px at 20% 30%, white, transparent), radial-gradient(2px 2px at 60% 70%, white, transparent), radial-gradient(1px 1px at 50% 50%, white, transparent)',
+              backgroundSize: '200px 200px, 150px 150px, 100px 100px',
+              animation: 'twinkle 3s ease-in-out infinite'
+            }}
+          />
         </div>
 
-        <div className="relative w-full px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Hero Text */}
-            <div className="space-y-8 animate-fade-in">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <Film className="w-8 h-8 text-accent-red" />
-                    <Sparkles className="w-4 h-4 text-accent-gold absolute -top-1 -right-1 animate-pulse" />
+        <div className="relative w-full px-4 sm:px-6 lg:px-8 py-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Hero Text */}
+              <div className="space-y-8 z-10">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-accent-red font-medium">
+                    <Film className="w-5 h-5" />
+                    <span>ReelSense++</span>
                   </div>
-                  <span className="text-accent-red font-medium">Next-Generation Recommendations</span>
+                  <h1 className="text-5xl md:text-7xl font-heading font-black leading-tight">
+                    <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-transparent bg-clip-text">
+                      Explainable AI Movie
+                    </span>
+                    <br />
+                    <span className="text-white">Recommendations</span>
+                  </h1>
+                  <p className="text-gray-400 text-lg max-w-xl leading-relaxed">
+                    Powered by hybrid ML • Diversity aware • Transparent
+                  </p>
                 </div>
-                
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-txt-primary leading-tight">
-                  <span className="gradient-text">ReelSense++</span>
-                </h1>
-                
-                <p className="text-xl md:text-2xl text-txt-secondary font-light leading-relaxed">
-                  Explainable & Diversity-Aware<br />
-                  <span className="text-txt-primary">Movie Recommendations</span>
-                </p>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    onClick={() => document.getElementById('search-section').scrollIntoView({ behavior: 'smooth' })}
+                    className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl font-semibold text-white shadow-lg hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 overflow-hidden"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <Film className="w-5 h-5" />
+                      Search Movies
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </button>
+                  
+                  <button
+                    onClick={() => document.getElementById('get-started').scrollIntoView({ behavior: 'smooth' })}
+                    className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl font-semibold text-white hover:bg-white/20 transition-all duration-300"
+                  >
+                    Get Recommendations
+                  </button>
+                </div>
               </div>
 
-              <p className="text-txt-secondary text-lg leading-relaxed max-w-xl">
-                Experience the future of movie discovery with our hybrid AI system that combines 
-                collaborative filtering and content analysis. Every recommendation comes with 
-                clear explanations and optimized diversity.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/analytics" className="btn-primary inline-flex items-center gap-2 justify-center">
-                  <BarChart3 className="w-4 h-4" />
-                  View Analytics
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                
-                <a 
-                  href="#get-started" 
-                  className="btn-secondary inline-flex items-center gap-2 justify-center"
-                >
-                  <Zap className="w-4 h-4" />
-                  Get Started
-                </a>
-              </div>
-            </div>
-
-            {/* Hero Visual */}
-            <div className="relative animate-slide-in-right">
-              <div className="relative bg-gradient-to-br from-bg-card to-bg-elevated rounded-2xl p-8 shadow-card-hover">
-                {/* Mock movie grid */}
-                <div className="grid grid-cols-3 gap-3 mb-6">
-                  {[...Array(9)].map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={`aspect-[2/3] rounded-lg bg-gradient-to-br opacity-80 animate-float ${
-                        i % 3 === 0 ? 'from-red-900 to-red-700' :
-                        i % 3 === 1 ? 'from-blue-900 to-blue-700' :
-                        'from-purple-900 to-purple-700'
-                      }`}
-                      style={{ animationDelay: `${i * 0.1}s` }}
-                    />
-                  ))}
-                </div>
-                
-                <div className="text-center space-y-2">
-                  <div className="flex items-center justify-center gap-2 text-accent-gold">
-                    <Sparkles className="w-4 h-4" />
-                    <span className="font-medium text-sm">Personalized for You</span>
+              {/* Hero Visual - Movie Posters Showcase */}
+              <div className="relative h-[600px] hidden lg:block">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {/* Center featured poster */}
+                  <div className="relative w-64 h-96 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 z-20 border-2 border-orange-500/50">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-900 to-red-900">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Film className="w-24 h-24 text-white opacity-40" />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                      <h3 className="text-white font-bold text-lg">Featured Movie</h3>
+                      <div className="flex items-center gap-1 mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className="text-yellow-500 text-sm">★</span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-txt-muted text-xs">10 recommendations with explanations</p>
+
+                  {/* Left poster */}
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform -rotate-12 hover:rotate-0 transition-all duration-500 z-10 opacity-80 hover:opacity-100">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-purple-900">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Film className="w-16 h-16 text-white opacity-30" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right poster */}
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform rotate-12 hover:rotate-0 transition-all duration-500 z-10 opacity-80 hover:opacity-100">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-900 to-pink-900">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Film className="w-16 h-16 text-white opacity-30" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Top left poster */}
+                  <div className="absolute left-12 top-0 w-40 h-60 rounded-xl overflow-hidden shadow-xl transform -rotate-6 opacity-60 hover:opacity-100 transition-all duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 to-blue-900">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Film className="w-12 h-12 text-white opacity-30" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Top right poster */}
+                  <div className="absolute right-12 top-0 w-40 h-60 rounded-xl overflow-hidden shadow-xl transform rotate-6 opacity-60 hover:opacity-100 transition-all duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-900 to-orange-900">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Film className="w-12 h-12 text-white opacity-30" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -158,21 +198,30 @@ const HomePage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 border-y border-bg-hover">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="relative py-20 bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map(({ label, value, icon: Icon }, index) => (
               <div 
                 key={label} 
-                className="text-center space-y-3 animate-slide-up"
+                className="relative group"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent-red bg-opacity-20">
-                  <Icon className="w-6 h-6 text-accent-red" />
-                </div>
-                <div className="space-y-1">
-                  <div className="text-2xl lg:text-3xl font-heading font-bold text-txt-primary">{value}</div>
-                  <div className="text-txt-muted text-sm uppercase tracking-wider">{label}</div>
+                <div className="relative bg-gradient-to-br from-red-950/50 to-black border border-red-900/30 rounded-2xl p-6 hover:border-red-500/50 transition-all duration-300 hover:scale-105">
+                  {/* Icon */}
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-orange-600 mb-4">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  
+                  {/* Value */}
+                  <div className="text-3xl lg:text-4xl font-heading font-bold text-white mb-1">
+                    {value}
+                  </div>
+                  
+                  {/* Label */}
+                  <div className="text-gray-400 text-sm font-medium">
+                    {label}
+                  </div>
                 </div>
               </div>
             ))}
@@ -189,12 +238,31 @@ const HomePage = () => {
                 Discover Your Next Favorite Movie
               </h2>
               <p className="text-txt-secondary text-lg max-w-2xl mx-auto">
-                Enter your User ID (1-610) to get personalized recommendations powered by 100,000+ ratings
+                Search for any movie or enter your User ID to get personalized recommendations
               </p>
+            </div>
+
+            {/* Search Bar Option */}
+            <div className="max-w-xl mx-auto mb-8">
+              <div className="text-sm text-txt-muted mb-3 flex items-center justify-center gap-2">
+                <Film className="w-4 h-4" />
+                <span>Search our database of 9,742 movies</span>
+              </div>
+              <MovieSearchBar />
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-4 max-w-md mx-auto my-8">
+              <div className="flex-1 h-px bg-bg-hover"></div>
+              <span className="text-txt-muted text-sm">OR</span>
+              <div className="flex-1 h-px bg-bg-hover"></div>
             </div>
 
             {/* User Input Form */}
             <div className="max-w-md mx-auto">
+              <div className="text-sm text-txt-muted mb-3">
+                Get AI-powered personalized recommendations
+              </div>
               <form onSubmit={handleGetRecommendations} className="space-y-4">
                 <div className="relative">
                   <input
