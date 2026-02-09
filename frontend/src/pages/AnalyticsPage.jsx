@@ -204,8 +204,7 @@ const AnalyticsPage = () => {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header with Back Button */}
+      <div className="w-full px-6 sm:px-8 lg:px-12 py-8">{/* Header with Back Button */}
         <div className="flex items-center justify-between mb-8">
           <Link 
             to="/" 

@@ -9,7 +9,8 @@ import {
   Heart,
   ArrowRight,
   Users,
-  Trophy
+  Trophy,
+  Star
 } from 'lucide-react';
 import MovieSearchBar from '../components/MovieSearchBar';
 import { safeScrollIntoView, devLog } from '../utils/production';
@@ -92,8 +93,8 @@ const HomePage = () => {
           />
         </div>
 
-        <div className="relative w-full px-4 sm:px-6 lg:px-8 py-20">
-          <div className="max-w-7xl mx-auto">
+        <div className="relative w-full px-6 sm:px-8 lg:px-12 py-20">
+          <div className="w-full">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Hero Text */}
               <div className="space-y-8 z-10">
@@ -141,16 +142,17 @@ const HomePage = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   {/* Center featured poster */}
                   <div className="relative w-64 h-96 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-110 transition-all duration-700 z-20 border-2 border-orange-500/50 animate-bounce-in delay-700">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-900 to-red-900">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Film className="w-24 h-24 text-white opacity-40" />
-                      </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                    <img 
+                      src="https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" 
+                      alt="Featured Movie" 
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
                       <h3 className="text-white font-bold text-lg">Featured Movie</h3>
                       <div className="flex items-center gap-1 mt-1">
                         {[...Array(5)].map((_, i) => (
-                          <span key={i} className="text-yellow-500 text-sm">★</span>
+                          <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                         ))}
                       </div>
                     </div>
@@ -158,39 +160,27 @@ const HomePage = () => {
 
                   {/* Left poster */}
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform -rotate-12 hover:rotate-0 hover:scale-110 transition-all duration-700 z-10 opacity-80 hover:opacity-100 animate-slide-in-left delay-800">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-purple-900">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Film className="w-16 h-16 text-white opacity-30" />
-                      </div>
-                    </div>
+                    <img 
+                      src="https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" 
+                      alt="Movie Poster" 
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                   </div>
 
                   {/* Right poster */}
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-72 rounded-xl overflow-hidden shadow-xl transform rotate-12 hover:rotate-0 hover:scale-110 transition-all duration-700 z-10 opacity-80 hover:opacity-100 animate-slide-in-right delay-800">
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-900 to-pink-900">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Film className="w-16 h-16 text-white opacity-30" />
-                      </div>
-                    </div>
+                    <img 
+                      src="https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg" 
+                      alt="Movie Poster" 
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                   </div>
 
+                  
                   {/* Top left poster */}
-                  <div className="absolute left-12 top-0 w-40 h-60 rounded-xl overflow-hidden shadow-xl transform -rotate-6 opacity-60 hover:opacity-100 transition-all duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 to-blue-900">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Film className="w-12 h-12 text-white opacity-30" />
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Top right poster */}
-                  <div className="absolute right-12 top-0 w-40 h-60 rounded-xl overflow-hidden shadow-xl transform rotate-6 opacity-60 hover:opacity-100 transition-all duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-900 to-orange-900">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Film className="w-12 h-12 text-white opacity-30" />
-                      </div>
-                    </div>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -200,7 +190,7 @@ const HomePage = () => {
 
       {/* Stats Section */}
       <section className="relative py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map(({ label, value, icon: Icon }, index) => (
               <div 

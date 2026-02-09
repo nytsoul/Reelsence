@@ -41,6 +41,12 @@ def load_poster_cache():
     # Also try local data directory path as fallback
     local_cache_path = os.path.join('data', 'processed', 'poster_cache.json')
     
+    print(f"🔍 DEBUG: Loading poster cache...")
+    print(f"   Config path: {cache_path}")
+    print(f"   Config exists: {os.path.exists(cache_path)}")
+    print(f"   Local path: {local_cache_path}")  
+    print(f"   Local exists: {os.path.exists(local_cache_path)}")
+    
     try:
         if os.path.exists(cache_path):
             import json
@@ -59,7 +65,12 @@ def load_poster_cache():
             poster_cache = {}
     except Exception as e:
         print(f"❌ Error loading poster cache: {e}")
+        import traceback
+        traceback.print_exc()
         poster_cache = {}
+    
+    print(f"🔍 DEBUG: Final poster_cache size: {len(poster_cache)}")
+    return len(poster_cache)  # Return size for verification
 
 
 def load_models():
@@ -112,12 +123,19 @@ def load_models():
 
 def get_poster_path(tmdb_id):
     """Get poster path for a movie from cache."""
+    global poster_cache
+    print(f"🔍 DEBUG get_poster_path: tmdb_id={tmdb_id}, cache_size={len(poster_cache)}")
+    
     if tmdb_id is None or pd.isna(tmdb_id):
+        print(f"🔍 DEBUG: tmdb_id is None or NaN")
         return None
     try:
         tmdb_id_str = str(int(float(tmdb_id)))
-        return poster_cache.get(tmdb_id_str)
-    except (ValueError, TypeError):
+        result = poster_cache.get(tmdb_id_str)
+        print(f"🔍 DEBUG: Looking up '{tmdb_id_str}' -> {result}")
+        return result
+    except (ValueError, TypeError) as e:
+        print(f"🔍 DEBUG: Error converting tmdb_id: {e}")
         return None
 
 

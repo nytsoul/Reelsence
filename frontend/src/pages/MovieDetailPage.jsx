@@ -217,8 +217,8 @@ const MovieDetailPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/50 to-bg-primary" />
 
         {/* Content */}
-        <div className="relative h-full w-full px-4 sm:px-6 lg:px-8 flex items-end pb-12">
-          <div className="max-w-6xl mx-auto w-full">
+        <div className="relative h-full w-full px-6 sm:px-8 lg:px-12 flex items-end pb-12">
+          <div className="w-full">
             <Link
               to="/"
               className="inline-flex items-center gap-2 text-txt-secondary hover:text-txt-primary transition-colors mb-4 glass px-4 py-2 rounded-lg"
@@ -249,8 +249,8 @@ const MovieDetailPage = () => {
         </div>
       </div>
 
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-12 -mt-20">
-        <div className="max-w-6xl mx-auto">
+      <div className="w-full px-6 sm:px-8 lg:px-12 py-12 -mt-20">
+        <div className="w-full">
 
 
           {/* Movie Header */}
@@ -295,40 +295,20 @@ const MovieDetailPage = () => {
 
             {/* Movie Info */}
             <div className="lg:col-span-2 space-y-8">
-              {/* Title & Basic Info */}
-              <div className="space-y-4">
-                <h1 className="text-4xl md:text-5xl font-heading font-bold text-txt-primary leading-tight">
-                  {cleanTitle}
-                </h1>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  {year && (
-                    <div className="flex items-center gap-2 text-txt-secondary">
-                      <Calendar className="w-4 h-4" />
-                      <span>{year}</span>
-                    </div>
-                  )}
-
-                  {movie.avg_rating && (
-                    <StarRating rating={movie.avg_rating} size="lg" />
-                  )}
+              {/* Genres */}
+              {movie.genres && movie.genres.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {movie.genres.map((genre, index) => (
+                    <span
+                      key={genre}
+                      className="flex items-center gap-1 px-3 py-1.5 bg-accent-blue bg-opacity-20 text-accent-blue rounded-lg font-medium"
+                    >
+                      <Tag className="w-3 h-3" />
+                      {genre}
+                    </span>
+                  ))}
                 </div>
-
-                {/* Genres */}
-                {movie.genres && movie.genres.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {movie.genres.map((genre, index) => (
-                      <span
-                        key={genre}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-accent-blue bg-opacity-20 text-accent-blue rounded-lg font-medium"
-                      >
-                        <Tag className="w-3 h-3" />
-                        {genre}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+              )}
 
               {/* Overview */}
               <div className="space-y-4">
@@ -437,13 +417,13 @@ const MovieDetailPage = () => {
                 Similar Movies
               </h2>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {similarMovies.map((movie, index) => (
                   <div
                     key={movie.movieId}
                     className={`animate-slide-up stagger-${Math.min(index + 1, 6)}`}
                   >
-                    <MovieCard movie={movie} showExplanation={false} />
+                    <MovieCard movie={movie} showExplanation={false} compact />
                   </div>
                 ))}
               </div>
