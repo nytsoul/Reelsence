@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Film,
+  Sparkles,
   Brain,
   Target,
   BarChart3,
@@ -388,9 +389,9 @@ const HomePage = () => {
             </div>
             <div className="flex items-center gap-8">
               {['Privacy', 'Terms', 'Contact', 'API'].map(link => (
-                <a key={link} href="#" className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">
+                <button key={link} onClick={() => {}} className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors bg-none border-none p-0 cursor-pointer">
                   {link}
-                </a>
+                </button>
               ))}
             </div>
           </div>
