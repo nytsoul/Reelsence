@@ -316,7 +316,7 @@ const HomePage = () => {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="glass-effect p-8 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 group transition-all duration-300 animate-fade-in-up"
+                className="glass-effect p-6 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 group transition-all duration-300 animate-fade-in-up h-full flex flex-col justify-between"
                 style={{ animationDelay: `${(index + 3) * 100}ms` }}
               >
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300`}>

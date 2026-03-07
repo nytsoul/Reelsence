@@ -43,7 +43,7 @@ const Footer = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,.02)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none" />
 
       {/* Newsletter Section */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-16 border-b border-white/5">
+      <div className="relative z-10 w-full px-6 lg:px-8 py-16 border-b border-white/5">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">Stay Updated</h3>
@@ -63,7 +63,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-16">
+      <div className="relative z-10 w-full px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-16">
           {/* Brand Column */}
           <div className="md:col-span-1 space-y-6">
