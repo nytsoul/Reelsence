@@ -15,7 +15,7 @@ function App() {
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="min-h-screen flex flex-col bg-bg-primary text-txt-primary font-body">
         <Header />
-        <main className="flex-1">
+        <main className="flex-1 pt-14 md:pt-14">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/recommendations/:userId" element={<RecommendationsPage />} />

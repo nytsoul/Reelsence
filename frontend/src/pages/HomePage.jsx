@@ -116,7 +116,7 @@ const HomePage = () => {
         {/* Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20" />
 
-        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="relative w-full max-w-6xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Hero Content */}
             <div className="space-y-8 animate-fade-in-up">
@@ -192,7 +192,7 @@ const HomePage = () => {
 
       {/* Stats Section */}
       <section className="py-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
               <div
@@ -215,7 +215,7 @@ const HomePage = () => {
       <section id="discovery" className="py-32 bg-gradient-to-b from-bg-primary to-bg-deep relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
         
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center space-y-6 mb-20 animate-fade-in-up">
             <div className="inline-block px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30">
               <span className="text-xs font-bold uppercase tracking-widest text-indigo-400">Discovery Methods</span>
@@ -298,7 +298,7 @@ const HomePage = () => {
 
       {/* Features Section */}
       <section id="features" className="py-32 relative">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="text-center space-y-6 mb-20 animate-fade-in-up">
             <div className="inline-block px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30">
               <span className="text-xs font-bold uppercase tracking-widest text-indigo-400">Features</span>
@@ -379,7 +379,7 @@ const HomePage = () => {
 
       {/* Footer */}
       <footer className="py-12 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-pink-600 rounded-lg flex items-center justify-center">

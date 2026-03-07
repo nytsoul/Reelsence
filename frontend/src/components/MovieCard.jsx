@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Play, Heart, Share2 } from 'lucide-react';
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, showExplanation, compact }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [showShare, setShowShare] = useState(false);
 
@@ -34,7 +34,10 @@ const MovieCard = ({ movie }) => {
   };
 
   return (
-    <div className="group relative card-premium aspect-[2/3] animate-fade-in-up rounded-2xl overflow-hidden cursor-pointer">
+    <Link
+      to={`/movie/${movie.id || movie.movieId}`}
+      className="group relative card-premium aspect-[2/3] animate-fade-in-up rounded-2xl overflow-hidden cursor-pointer block h-full"
+    >
       {/* Poster Image */}
       <img
         src={posterUrl}
@@ -84,13 +87,13 @@ const MovieCard = ({ movie }) => {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-200">
-          <Link
-            to={`/movie/${movie.id || movie.movieId}`}
+          <button
+            onClick={(e) => e.preventDefault()}
             className="flex-1 h-11 bg-gradient-to-r from-indigo-600 to-pink-600 text-white rounded-lg font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-95 transition-all duration-300"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>Details</span>
-          </Link>
+          </button>
           
           <button
             onClick={handleFavorite}
@@ -116,7 +119,7 @@ const MovieCard = ({ movie }) => {
 
       {/* Glow Effect on Hover */}
       <div className="absolute -inset-0.5 bg-gradient-to-tr from-indigo-600/30 to-pink-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
-    </div>
+    </Link>
   );
 };
 

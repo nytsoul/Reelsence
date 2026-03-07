@@ -417,13 +417,13 @@ const MovieDetailPage = () => {
                 Similar Movies
               </h2>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                 {similarMovies.map((movie, index) => (
                   <div
                     key={movie.movieId}
                     className={`animate-slide-up stagger-${Math.min(index + 1, 6)}`}
                   >
-                    <MovieCard movie={movie} showExplanation={false} compact />
+                    <MovieCard movie={movie} />
                   </div>
                 ))}
               </div>
