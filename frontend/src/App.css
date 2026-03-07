@@ -8,13 +8,13 @@
 /* Page transitions */
 main {
   flex: 1;
-  animation: pageEnter 0.4s ease-out;
+  animation: pageEnter 0.5s ease-out;
 }
 
 @keyframes pageEnter {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -33,3 +33,112 @@ main {
 .stagger-8 { animation-delay: 0.4s; }
 .stagger-9 { animation-delay: 0.45s; }
 .stagger-10 { animation-delay: 0.5s; }
+
+/* Glass Morphism Effect */
+.glass-effect {
+  background: rgba(26, 26, 46, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+}
+
+.glass-effect-sm {
+  background: rgba(26, 26, 46, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Badge styles */
+.badge-primary {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  color: white;
+}
+
+.badge-secondary {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-slate-700/40 text-slate-200;
+}
+
+.badge-success {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-green-500/20 text-green-300;
+}
+
+/* Button animations */
+.btn-base {
+  @apply relative px-6 py-3 rounded-xl font-semibold transition-all duration-300;
+}
+
+.btn-primary {
+  @apply btn-base bg-gradient-to-r from-indigo-600 to-pink-600 text-white hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95;
+}
+
+.btn-secondary {
+  @apply btn-base bg-white/10 text-white hover:bg-white/20 border border-white/15 active:scale-95;
+}
+
+.btn-outlined {
+  @apply btn-base border-2 border-indigo-500 text-indigo-400 hover:bg-indigo-500/10 active:scale-95;
+}
+
+/* Text gradients */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-alt {
+  background: linear-gradient(135deg, #818cf8, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Loading states */
+.skeleton {
+  @apply bg-white/5 animate-pulse rounded-lg;
+}
+
+.skeleton-text {
+  @apply h-4 bg-white/10 rounded animate-pulse;
+}
+
+/* Hover effects */
+.hover-lift {
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+}
+
+.hover-glow {
+  @apply transition-all duration-300 hover:shadow-glow;
+}
+
+/* Responsive grid */
+@media (max-width: 640px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, input {
+  @apply transition-colors duration-300;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgb(99, 102, 241);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: rgb(99, 102, 241);
+  color: white;
+}
+
+/* Focus ring styles */
+:focus-visible {
+  outline: 2px solid rgb(99, 102, 241);
+  outline-offset: 2px;
+}
+

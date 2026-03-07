@@ -1,205 +1,122 @@
 import React, { useState } from 'react';
-import { Star, Film, Calendar, Tag, TrendingUp, Share2, Bookmark, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Star, Play, Heart, Share2 } from 'lucide-react';
 
-// TMDB Image base URL - no API key needed for images
-const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
+const MovieCard = ({ movie }) => {
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
-const MoviePoster = ({ movie }) => {
-  const [imageError, setImageError] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  
-  const getGenreGradient = (genres) => {
-    if (!genres || genres.length === 0) return 'from-bg-elevated to-bg-hover';
-    
-    const genreColors = {
-      'Action': 'from-red-900 to-red-700',
-      'Adventure': 'from-orange-900 to-orange-700', 
-      'Comedy': 'from-yellow-900 to-yellow-700',
-      'Drama': 'from-blue-900 to-blue-700',
-      'Horror': 'from-gray-900 to-gray-700',
-      'Romance': 'from-pink-900 to-pink-700',
-      'Sci-Fi': 'from-purple-900 to-purple-700',
-      'Thriller': 'from-green-900 to-green-700',
-      'Animation': 'from-cyan-900 to-cyan-700',
-      'Fantasy': 'from-indigo-900 to-indigo-700',
-    };
-    
-    return genreColors[genres[0]] || 'from-bg-elevated to-bg-hover';
+  // Extracting details with fallbacks
+  const title = movie.title || 'Unknown Title';
+  const rating = movie.rating || (movie.vote_average ? (movie.vote_average / 2).toFixed(1) : 'N/A');
+  const genres = movie.genres ? movie.genres.slice(0, 2).map(g => g.name || g).join(', ') : '';
+  const year = movie.release_date ? new Date(movie.release_date).getFullYear() : (movie.year || '');
+  const overview = movie.overview || movie.description || '';
+  const posterUrl = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : (movie.image || 'https://via.placeholder.com/500x750?text=No+Poster');
+
+  const handleFavorite = (e) => {
+    e.preventDefault();
+    setIsFavorited(!isFavorited);
   };
 
-  // Generate poster URL from TMDB ID
-  const getPosterUrl = () => {
-    if (movie.poster_path) {
-      return `${TMDB_IMAGE_BASE}${movie.poster_path}`;
+  const handleShare = (e) => {
+    e.preventDefault();
+    setShowShare(!showShare);
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: `Check out ${title}!`,
+        url: window.location.href,
+      });
     }
-    return null;
   };
 
-  const posterUrl = getPosterUrl();
-  const showFallback = !posterUrl || imageError;
-
   return (
-    <div 
-      className={`aspect-[2/3] bg-gradient-to-br ${getGenreGradient(movie.genres)} rounded-xl overflow-hidden relative group`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Actual Poster Image */}
-      {posterUrl && !imageError && (
-        <img
-          src={posterUrl}
-          alt={movie.title}
-          className={`absolute inset-0 w-full h-full object-cover transition-all duration-300 ${
-            imageLoaded ? 'opacity-100' : 'opacity-0'
-          } ${isHovered ? 'scale-110' : 'scale-100'}`}
-          onLoad={() => setImageLoaded(true)}
-          onError={() => setImageError(true)}
-        />
-      )}
-      
-      {/* Fallback - Genre gradient with icon */}
-      {(showFallback || !imageLoaded) && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Film className="w-16 h-16 text-white opacity-40" />
+    <div className="group relative card-premium aspect-[2/3] animate-fade-in-up rounded-2xl overflow-hidden cursor-pointer">
+      {/* Poster Image */}
+      <img
+        src={posterUrl}
+        alt={title}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        loading="lazy"
+      />
+
+      {/* Glass Overlay on Hover */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+
+      {/* Rating Badge */}
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-1 backdrop-blur-md bg-slate-900/60 border border-yellow-400/30 px-3 py-1.5 rounded-full">
+        <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+        <span className="text-white font-semibold text-sm">{rating}</span>
+      </div>
+
+      {/* Year Badge */}
+      {year && (
+        <div className="absolute top-4 left-4 z-20">
+          <span className="backdrop-blur-md bg-slate-900/60 border border-slate-500/30 px-3 py-1.5 rounded-full text-xs font-bold text-slate-300">
+            {year}
+          </span>
         </div>
       )}
-      
-      {/* Overlay gradient for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
-      
-      {/* Quick Actions - Top Right */}
-      <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-        <button
-          onClick={(e) => { e.preventDefault(); alert('Bookmark feature coming soon!'); }}
-          className="p-1.5 bg-black/60 backdrop-blur-sm rounded-lg hover:bg-accent-red transition-all"
-          title="Bookmark"
-        >
-          <Bookmark className="w-3.5 h-3.5 text-white" />
-        </button>
-        <button
-          onClick={(e) => { e.preventDefault(); navigator.clipboard.writeText(window.location.origin + `/movie/${movie.movieId}`); alert('Link copied!'); }}
-          className="p-1.5 bg-black/60 backdrop-blur-sm rounded-lg hover:bg-accent-blue transition-all"
-          title="Share"
-        >
-          <Share2 className="w-3.5 h-3.5 text-white" />
-        </button>
-      </div>
 
-      {/* Play Button Overlay */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-        <div className="w-12 h-12 rounded-full bg-accent-red/90 backdrop-blur-sm flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform">
-          <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
-        </div>
-      </div>
-      
-      {/* Title overlay */}
-      <div className="absolute bottom-0 left-0 right-0 p-3 poster-overlay opacity-100 group-hover:opacity-0 transition-opacity duration-300">
-        <h4 className="text-white font-semibold text-sm line-clamp-2">{movie.title}</h4>
-      </div>
-    </div>
-  );
-};
-
-const StarRating = ({ rating }) => {
-  const stars = Math.round(rating);
-  return (
-    <div className="flex items-center gap-1">
-      <div className="flex">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-3.5 h-3.5 ${i < stars ? 'star-filled fill-current' : 'star-empty'}`}
-          />
-        ))}
-      </div>
-      <span className="text-xs text-txt-muted ml-1">{rating.toFixed(1)}</span>
-    </div>
-  );
-};
-
-const getBadge = (movie) => {
-  if (movie.confidence > 0.8 && movie.cf_score > movie.content_score) {
-    return { text: '🧠 Hybrid Pick', class: 'badge-red' };
-  } else if (movie.predicted_rating > 4.0 && movie.content_score > 0.5) {
-    return { text: '🌱 Long-Tail Discovery', class: 'badge-green' };
-  } else if (movie.predicted_rating > 4.2) {
-    return { text: '🔥 Popular Choice', class: 'badge-gold' };
-  }
-  return null;
-};
-
-const MovieCard = ({ movie, showExplanation = true, compact = false }) => {
-  const badge = getBadge(movie);
-
-  return (
-    <Link 
-      to={`/movie/${movie.movieId}`}
-      className="block group"
-    >
-      <div className={`card-hover h-full flex flex-col ${compact ? 'p-2.5' : 'p-3'}`}>
-        {/* Movie Poster */}
-        <MoviePoster movie={movie} />
-
-        {/* Movie Info */}
-        <div className={`flex-1 ${compact ? 'pt-2 space-y-1.5' : 'pt-3 space-y-2'}`}>
-          {/* Title */}
-          <h3 className={`font-heading font-semibold text-txt-primary group-hover:text-accent-red transition-colors line-clamp-2 ${compact ? 'text-xs' : 'text-sm'}`}>
-            {movie.title}
-          </h3>
-
-          {/* Year & Genres */}
-          <div className="flex flex-wrap gap-1">
-            {movie.year && (
-              <span className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-bg-hover text-txt-muted rounded-md ${compact ? 'text-[10px]' : 'text-[11px]'}`}>
-                <Calendar className="w-2.5 h-2.5" />
-                {movie.year}
-              </span>
-            )}
-            {movie.genres?.slice(0, compact ? 1 : 2).map((genre, index) => (
-              <span 
-                key={index}
-                className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-accent-blue bg-opacity-20 text-accent-blue rounded-md ${compact ? 'text-[10px]' : 'text-[11px]'}`}
-              >
-                <Tag className="w-2.5 h-2.5" />
-                {genre}
-              </span>
-            ))}
+      {/* Content Container */}
+      <div className="absolute inset-0 p-5 flex flex-col justify-end transform translate-y-10 group-hover:translate-y-0 transition-transform duration-500">
+        {/* Metadata */}
+        {genres && (
+          <div className="text-xs font-bold uppercase tracking-wider text-indigo-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 mb-3">
+            {genres}
           </div>
+        )}
 
-          {/* Rating */}
-          {movie.predicted_rating && (
-            <StarRating rating={movie.predicted_rating} />
-          )}
+        {/* Title */}
+        <h3 className="text-xl font-bold leading-tight mb-3 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-300 transition-all duration-300">
+          {title}
+        </h3>
 
-          {/* Badge */}
-          {badge && !compact && (
-            <div className={`inline-block ${badge.class} text-[10px] font-medium`}>
-              {badge.text}
-            </div>
-          )}
+        {/* Description */}
+        {overview && (
+          <p className="text-xs text-slate-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-150">
+            {overview}
+          </p>
+        )}
 
-          {/* Explanation */}
-          {showExplanation && movie.explanation && !compact && (
-            <div className="pt-1.5 border-t border-bg-hover">
-              <p className="text-[10px] text-txt-secondary leading-relaxed line-clamp-2">
-                <span className="text-accent-gold font-medium">Why: </span>
-                {movie.explanation}
-              </p>
-            </div>
-          )}
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-200">
+          <Link
+            to={`/movie/${movie.id || movie.movieId}`}
+            className="flex-1 h-11 bg-gradient-to-r from-indigo-600 to-pink-600 text-white rounded-lg font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-95 transition-all duration-300"
+          >
+            <Play className="w-4 h-4 fill-current" />
+            <span>Details</span>
+          </Link>
+          
+          <button
+            onClick={handleFavorite}
+            className={`w-11 h-11 rounded-lg font-bold flex items-center justify-center transition-all duration-300 ${
+              isFavorited
+                ? 'bg-red-500/80 text-white'
+                : 'bg-white/15 hover:bg-white/25 text-white'
+            }`}
+            title={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            <Heart className={`w-5 h-5 ${isFavorited ? 'fill-current' : ''}`} />
+          </button>
 
-          {/* Confidence */}
-          {movie.confidence && (
-            <div className={`flex items-center gap-1 text-txt-muted ${compact ? 'text-[10px]' : 'text-[11px]'}`}>
-              <TrendingUp className="w-3 h-3" />
-              <span>{(movie.confidence * 100).toFixed(0)}% match</span>
-            </div>
-          )}
+          <button
+            onClick={handleShare}
+            className="w-11 h-11 bg-white/15 hover:bg-white/25 rounded-lg font-bold flex items-center justify-center text-white transition-all duration-300"
+            title="Share"
+          >
+            <Share2 className="w-5 h-5" />
+          </button>
         </div>
       </div>
-    </Link>
+
+      {/* Glow Effect on Hover */}
+      <div className="absolute -inset-0.5 bg-gradient-to-tr from-indigo-600/30 to-pink-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
+    </div>
   );
 };
 
