@@ -17,3 +17,6 @@ gunicorn==20.1.0
 
 # Environment helper
 python-dotenv==1.0.0
+
+# Build tools (needed by gunicorn)
+setuptools>=82.0.1
