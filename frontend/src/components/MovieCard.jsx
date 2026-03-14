@@ -36,7 +36,7 @@ const MovieCard = ({ movie, showExplanation, compact }) => {
   return (
     <Link
       to={`/movie/${movie.id || movie.movieId}`}
-      className="group relative card-premium aspect-[2/3] animate-fade-in-up rounded-2xl overflow-hidden cursor-pointer block h-full w-full max-w-[10rem] sm:max-w-[8rem] mx-auto"
+      className="group relative card-premium aspect-[3/5] animate-fade-in-up rounded-4xl overflow-hidden cursor-pointer block h-full w-full max-w-[15rem] sm:max-w-[18rem] mx-auto"
     >
       {/* Poster Image */}
       <img

@@ -53,13 +53,13 @@ const MoviePoster = ({ movie }) => {
   const showFallback = !posterUrl || imageError;
 
   return (
-    <div className={`aspect-[2/3] bg-gradient-to-br ${getGenreGradient(movie.genres)} rounded-xl overflow-hidden relative`}>
+    <div className={`aspect-[2/2] bg-gradient-to-br ${getGenreGradient(movie.genres)} rounded-21xl overflow-hidden relative`}>
       {/* Actual Poster Image */}
       {posterUrl && !imageError && (
         <img
           src={posterUrl}
           alt={movie.title}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 w-50 h-150 object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-100'}`}
           onLoad={() => setImageLoaded(true)}
           onError={() => setImageError(true)}
         />
