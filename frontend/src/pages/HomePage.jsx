@@ -238,11 +238,10 @@ const HomePage = () => {
         <div className="w-full overflow-x-auto">
           <div className="flex gap-4 px-6 lg:px-8">
             {[...sampleMovies, ...sampleMovies].map((movie) => (
-                <div key={`reality-${movie.id}-${movie.title}`} className="rail-item">
-                  <MovieCard movie={movie} />
-                </div>
-              ))}
-            </div>
+              <div key={`reality-${movie.id}-${movie.title}`} className="rail-item flex-shrink-0">
+                <MovieCard movie={movie} />
+              </div>
+            ))}
           </div>
         </div>
       </section>
