@@ -64,11 +64,11 @@ const MovieSearchBar = ({ className = '' }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search movies by title or genre..."
-          className="w-full pl-12 pr-12 py-3 bg-bg-card border border-bg-hover rounded-xl text-txt-primary placeholder-txt-muted focus:outline-none focus:border-accent-red focus:ring-2 focus:ring-accent-red focus:ring-opacity-20 transition-all"
+          className="w-full pl-12 pr-12 py-3 bg-bg-input border border-white/10 rounded-xl text-txt-primary placeholder-txt-muted focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/30 transition-all"
         />
 
         <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-          {isSearching && <Loader2 className="w-4 h-4 text-accent-red animate-spin" />}
+          {isSearching && <Loader2 className="w-4 h-4 text-accent-primary animate-spin" />}
           {query && !isSearching && (
             <button
               type="button"
@@ -83,7 +83,7 @@ const MovieSearchBar = ({ className = '' }) => {
 
       {/* Search Results Dropdown */}
       {showResults && results.length > 0 && (
-        <div className="absolute z-50 w-full mt-2 bg-bg-card border border-bg-hover rounded-xl shadow-card-hover max-h-96 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-2 bg-bg-surface border border-white/10 rounded-xl shadow-card-hover max-h-96 overflow-y-auto">
           <div className="p-2">
             <div className="text-xs text-txt-muted px-3 py-2">
               Found {results.length} {results.length === 1 ? 'movie' : 'movies'}
@@ -130,7 +130,7 @@ const MovieSearchBar = ({ className = '' }) => {
                   </div>
                   {movie.avg_rating > 0 && (
                     <div className="flex items-center gap-1 mt-1">
-                      <span className="text-xs text-accent-gold">★</span>
+                        <span className="text-xs text-accent-warning">★</span>
                       <span className="text-xs text-txt-muted">
                         {movie.avg_rating.toFixed(1)}/5
                       </span>
@@ -145,7 +145,7 @@ const MovieSearchBar = ({ className = '' }) => {
 
       {/* No Results */}
       {showResults && query.length >= 2 && results.length === 0 && !isSearching && (
-        <div className="absolute z-50 w-full mt-2 bg-bg-card border border-bg-hover rounded-xl shadow-card-hover p-6 text-center">
+        <div className="absolute z-50 w-full mt-2 bg-bg-surface border border-white/10 rounded-xl shadow-card-hover p-6 text-center">
           <Film className="w-12 h-12 text-txt-muted opacity-40 mx-auto mb-3" />
           <p className="text-txt-secondary">No movies found for "{query}"</p>
           <p className="text-txt-muted text-sm mt-1">Try a different search term</p>

@@ -31,7 +31,7 @@ const HomePage = () => {
     if (!userId || userId < 1 || userId > 610) {
       alert('Please enter a valid User ID between 1 and 610');
       return;
-    }
+      <div className="min-h-screen bg-bg-primary selection:bg-cyan-500/30">
 
     setIsLoading(true);
     devLog('Getting recommendations for user:', userId);
@@ -46,44 +46,44 @@ const HomePage = () => {
     {
       icon: Brain,
       title: 'AI-Powered Recommendations',
-      description: 'Advanced hybrid models combining collaborative filtering with deep semantic understanding.',
-      gradient: 'from-indigo-600 to-blue-600',
-      color: 'text-indigo-400',
+      description: 'Hybrid models combine collaborative filtering with semantic understanding.',
+      gradient: 'from-cyan-500 to-blue-600',
+      color: 'text-cyan-300',
     },
     {
       icon: Sparkles,
       title: 'Personalized Discovery',
-      description: 'Get tailored movie suggestions based on your unique taste and viewing patterns.',
-      gradient: 'from-pink-600 to-rose-600',
-      color: 'text-pink-400',
+      description: 'Tailored suggestions based on your unique taste and viewing patterns.',
+      gradient: 'from-sky-500 to-cyan-600',
+      color: 'text-sky-300',
     },
     {
       icon: Target,
       title: 'Break Through Bubbles',
-      description: 'Discover hidden gems and lesser-known masterpieces optimized for serendipity.',
-      gradient: 'from-amber-500 to-orange-600',
-      color: 'text-amber-400',
+      description: 'Find hidden gems and curated picks optimized for serendipity.',
+      gradient: 'from-blue-500 to-indigo-600',
+      color: 'text-blue-300',
     },
     {
       icon: BarChart3,
       title: 'Real-Time Analytics',
-      description: 'Track your viewing patterns and discover insights about your movie preferences.',
-      gradient: 'from-emerald-500 to-teal-600',
-      color: 'text-emerald-400',
+      description: 'Track your viewing patterns and discover preference insights.',
+      gradient: 'from-emerald-500 to-cyan-600',
+      color: 'text-emerald-300',
     },
     {
       icon: Award,
       title: 'Quality Assurance',
-      description: 'Every recommendation is vetted to ensure premium viewing experience.',
-      gradient: 'from-purple-600 to-indigo-600',
-      color: 'text-purple-400',
+      description: 'Every recommendation is checked for quality and relevance.',
+      gradient: 'from-indigo-500 to-sky-600',
+      color: 'text-indigo-300',
     },
     {
       icon: Flame,
       title: 'Trending Now',
-      description: 'Stay updated with what\'s trending and what\'s worth your time.',
-      gradient: 'from-red-600 to-pink-600',
-      color: 'text-red-400',
+      description: 'Stay current with what is trending and worth your time.',
+      gradient: 'from-cyan-500 to-blue-700',
+      color: 'text-cyan-300',
     },
   ];
 
@@ -104,36 +104,36 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-bg-deep via-bg-primary to-bg-deep selection:bg-indigo-600/30">
+    <div className="min-h-screen bg-bg-primary selection:bg-cyan-500/30">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-28 pb-16 overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 opacity-40">
-          <div className="absolute top-1/4 -left-40 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-1/4 -left-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/4 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
 
         {/* Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20" />
 
-        <div className="relative w-full max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Hero Content */}
             <div className="space-y-8 animate-fade-in-up">
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 transition-all">
-                <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
-                <span className="text-xs font-bold uppercase tracking-widest text-white/80">Next-Gen Movie Intelligence</span>
+                <Zap className="w-4 h-4 text-cyan-300 fill-cyan-300" />
+                <span className="text-xs font-bold uppercase tracking-widest text-white/80">Prime-Grade Movie Intelligence</span>
               </div>
 
               {/* Main Heading */}
               <div className="space-y-4">
                 <h1 className="text-5xl md:text-7xl font-black leading-tight tracking-tight">
-                  Discover Your <br />
-                  <span className="gradient-text">Perfect Movie</span>
+                  Stream Smarter. <br />
+                  <span className="gradient-text">Discover Better</span>
                 </h1>
-                <p className="text-lg text-slate-300 max-w-lg leading-relaxed">
-                  Experience AI-powered movie recommendations tailored to your unique taste. From blockbusters to hidden gems, find your next favorite film.
+                <p className="text-lg text-txt-secondary max-w-lg leading-relaxed">
+                  A Prime-inspired streaming experience with AI picks, curated rails, and detail-rich insights tailored to your taste.
                 </p>
               </div>
 
@@ -156,7 +156,7 @@ const HomePage = () => {
               </div>
 
               {/* Social Proof */}
-              <div className="flex items-center gap-4 pt-8 opacity-75">
+              <div className="flex items-center gap-4 pt-8 opacity-80">
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map(i => (
                     <div key={i} className="w-10 h-10 rounded-full border-2 border-bg-primary overflow-hidden">
@@ -164,7 +164,7 @@ const HomePage = () => {
                     </div>
                   ))}
                 </div>
-                <p className="text-sm text-slate-300">
+                <p className="text-sm text-txt-secondary">
                   Join <span className="font-bold text-white">50K+</span> movie enthusiasts
                 </p>
               </div>
@@ -184,27 +184,73 @@ const HomePage = () => {
               </div>
 
               {/* Glow Effect */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-indigo-600/10 to-pink-600/10 rounded-full blur-3xl -z-10" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-cyan-500/10 to-blue-600/10 rounded-full blur-3xl -z-10" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="row-wrap">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="row-title">Indian Crime Action</h2>
+              <button className="text-sm text-cyan-300 hover:text-cyan-200 transition-colors">View all</button>
+            </div>
+            <div className="rail">
+              {[...sampleMovies, ...sampleMovies].map((movie) => (
+                <div key={`crime-${movie.id}-${movie.title}`} className="rail-item">
+                  <MovieCard movie={movie} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="row-wrap">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="row-title">Continue Watching for You</h2>
+              <button className="text-sm text-cyan-300 hover:text-cyan-200 transition-colors">Manage</button>
+            </div>
+            <div className="rail">
+              {[...sampleMovies, ...sampleMovies].map((movie) => (
+                <div key={`continue-${movie.id}-${movie.title}`} className="rail-item">
+                  <MovieCard movie={movie} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="row-wrap">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="row-title">Escapist Reality TV</h2>
+              <button className="text-sm text-cyan-300 hover:text-cyan-200 transition-colors">View all</button>
+            </div>
+            <div className="rail">
+              {[...sampleMovies, ...sampleMovies].map((movie) => (
+                <div key={`reality-${movie.id}-${movie.title}`} className="rail-item">
+                  <MovieCard movie={movie} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 relative z-10">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <section className="py-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="glass-effect p-6 md:p-8 text-center space-y-3 hover:bg-white/10 transition-all duration-300 animate-fade-in-up rounded-2xl"
+                className="glass-effect p-6 md:p-7 text-center space-y-3 hover:bg-white/10 transition-all duration-300 animate-fade-in-up rounded-2xl"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-pink-600 mx-auto flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 mx-auto flex items-center justify-center">
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-4xl font-black text-white">{stat.value}</div>
-                <div className="text-xs font-bold uppercase tracking-widest text-slate-400">{stat.label}</div>
+                <div className="text-xs font-bold uppercase tracking-widest text-txt-muted">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -212,18 +258,18 @@ const HomePage = () => {
       </section>
 
       {/* Discovery Section */}
-      <section id="discovery" className="py-32 bg-gradient-to-b from-bg-primary to-bg-deep relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
+      <section id="discovery" className="py-28 bg-gradient-to-b from-bg-primary to-bg-deep relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,168,225,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,168,225,.06)_1px,transparent_1px)] bg-[size:120px_120px]" />
         
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center space-y-6 mb-20 animate-fade-in-up">
-            <div className="inline-block px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30">
-              <span className="text-xs font-bold uppercase tracking-widest text-indigo-400">Discovery Methods</span>
+            <div className="inline-block px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+              <span className="text-xs font-bold uppercase tracking-widest text-cyan-300">Discovery Methods</span>
             </div>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight">
               Find Movies Your Way
             </h2>
-            <p className="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-txt-secondary text-lg max-w-2xl mx-auto leading-relaxed">
               Search our vast library or let AI discover your next favorite film based on your preferences.
             </p>
           </div>
@@ -231,25 +277,25 @@ const HomePage = () => {
           {/* Two Discovery Paths */}
           <div className="grid md:grid-cols-2 gap-8 animate-fade-in-up delay-200">
             {/* Smart Search */}
-            <div className="glass-effect p-10 rounded-3xl space-y-8 border border-white/10 hover:border-indigo-500/30 transition-all">
+            <div className="glass-effect p-10 rounded-3xl space-y-8 border border-white/10 hover:border-cyan-500/30 transition-all">
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-600 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
                   <SearchIcon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold">Smart Search</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">Browse and search our curated collection of 10,000+ movies with intelligent filtering.</p>
+                <p className="text-txt-secondary text-sm leading-relaxed">Browse and search our curated collection of 10,000+ movies with intelligent filtering.</p>
               </div>
               <MovieSearchBar />
             </div>
 
             {/* AI Personalized */}
-            <div className="glass-effect p-10 rounded-3xl space-y-8 border border-pink-500/30 hover:border-pink-500/50 transition-all bg-gradient-to-br from-pink-600/5 to-transparent">
+            <div className="glass-effect p-10 rounded-3xl space-y-8 border border-cyan-500/30 hover:border-cyan-500/50 transition-all bg-gradient-to-br from-cyan-500/10 to-transparent">
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-600 to-orange-600 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center">
                   <Sparkles className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold">AI Personalized</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">Enter your User ID to get AI-generated recommendations based on your viewing history.</p>
+                <p className="text-txt-secondary text-sm leading-relaxed">Enter your User ID to get AI-generated recommendations based on your viewing history.</p>
               </div>
 
               <form onSubmit={handleGetRecommendations} className="space-y-4">
@@ -260,7 +306,7 @@ const HomePage = () => {
                   value={userId}
                   onChange={(e) => setUserId(e.target.value)}
                   placeholder="Enter User ID (1-610)"
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 outline-none focus:bg-white/10 focus:border-pink-500/50 focus:ring-4 focus:ring-pink-500/10 transition-all"
+                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-txt-muted outline-none focus:bg-white/10 focus:border-cyan-500/50 focus:ring-4 focus:ring-cyan-500/10 transition-all"
                   required
                 />
                 <button
@@ -285,7 +331,7 @@ const HomePage = () => {
                   <button
                     key={id}
                     onClick={() => setUserId(id)}
-                    className="flex-1 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-indigo-400 py-2 rounded-lg hover:bg-white/5 transition-all"
+                    className="flex-1 text-xs font-bold uppercase tracking-widest text-txt-muted hover:text-cyan-300 py-2 rounded-lg hover:bg-white/5 transition-all"
                   >
                     Try {id}
                   </button>
@@ -297,16 +343,16 @@ const HomePage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-32 relative">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <section id="features" className="py-28 relative">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center space-y-6 mb-20 animate-fade-in-up">
-            <div className="inline-block px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30">
-              <span className="text-xs font-bold uppercase tracking-widest text-indigo-400">Features</span>
+            <div className="inline-block px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+              <span className="text-xs font-bold uppercase tracking-widest text-cyan-300">Features</span>
             </div>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight">
               Powerful Features
             </h2>
-            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+            <p className="text-txt-secondary text-lg max-w-2xl mx-auto">
               Everything you need for the ultimate movie discovery experience.
             </p>
           </div>
@@ -323,8 +369,8 @@ const HomePage = () => {
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{feature.description}</p>
-                <div className="pt-6 flex items-center gap-2 text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity text-sm font-semibold">
+                <p className="text-txt-secondary text-sm leading-relaxed">{feature.description}</p>
+                <div className="pt-6 flex items-center gap-2 text-cyan-300 opacity-0 group-hover:opacity-100 transition-opacity text-sm font-semibold">
                   <span>Learn more</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>
@@ -335,11 +381,11 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 relative overflow-hidden">
+      <section className="py-28 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 lg:px-8">
           <div className="relative rounded-3xl p-12 md:p-20 overflow-hidden text-center space-y-10">
             {/* Background Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/80 via-pink-600/80 to-orange-600/80 opacity-90" />
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/80 via-blue-700/80 to-slate-900/80 opacity-90" />
             <div className="absolute inset-0 opacity-20" style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
             }} />
@@ -347,16 +393,16 @@ const HomePage = () => {
             {/* Content */}
             <div className="relative z-10">
               <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-                Ready to Transform <br /> Your Viewing Experience?
+                Ready for Prime-Style <br /> Movie Discovery?
               </h2>
               <p className="text-white/90 text-lg max-w-2xl mx-auto font-medium mb-10">
-                Join thousands of movie enthusiasts who have discovered their next favorite films with ReelSense.
+                Join thousands of movie enthusiasts who discover their next favorites with ReelSense Prime.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => safeScrollIntoView('discovery')}
-                  className="px-8 py-4 bg-white text-indigo-600 rounded-xl font-bold hover:bg-slate-100 transition-all duration-300 shadow-xl"
+                  className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold hover:bg-slate-100 transition-all duration-300 shadow-xl"
                 >
                   Start Free Now
                 </button>
@@ -378,18 +424,18 @@ const HomePage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <footer className="py-10 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-pink-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
                 <Film className="w-4 h-4 text-white" />
               </div>
-              <span className="text-sm font-bold uppercase tracking-widest text-slate-400">ReelSense © 2026</span>
+              <span className="text-sm font-bold uppercase tracking-widest text-txt-muted">ReelSense © 2026</span>
             </div>
             <div className="flex items-center gap-8">
               {['Privacy', 'Terms', 'Contact', 'API'].map(link => (
-                <button key={link} onClick={() => {}} className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors bg-none border-none p-0 cursor-pointer">
+                <button key={link} onClick={() => {}} className="text-xs font-bold uppercase tracking-widest text-txt-muted hover:text-white transition-colors bg-none border-none p-0 cursor-pointer">
                   {link}
                 </button>
               ))}

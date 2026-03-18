@@ -36,22 +36,22 @@ main {
 
 /* Glass Morphism Effect */
 .glass-effect {
-  background: rgba(26, 26, 46, 0.7);
-  backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 30, 0.75);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(140, 180, 210, 0.12);
   border-radius: 1.5rem;
 }
 
 .glass-effect-sm {
-  background: rgba(26, 26, 46, 0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 30, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(140, 180, 210, 0.1);
 }
 
 /* Badge styles */
 .badge-primary {
   @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
+  background: linear-gradient(135deg, #00a8e1, #1f80e0);
   color: white;
 }
 
@@ -69,7 +69,7 @@ main {
 }
 
 .btn-primary {
-  @apply btn-base bg-gradient-to-r from-indigo-600 to-pink-600 text-white hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95;
+  @apply btn-base bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/20 active:scale-95;
 }
 
 .btn-secondary {
@@ -77,12 +77,12 @@ main {
 }
 
 .btn-outlined {
-  @apply btn-base border-2 border-indigo-500 text-indigo-400 hover:bg-indigo-500/10 active:scale-95;
+  @apply btn-base border-2 border-cyan-500 text-cyan-300 hover:bg-cyan-500/10 active:scale-95;
 }
 
 /* Text gradients */
 .gradient-text {
-  background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+  background: linear-gradient(135deg, #00a8e1, #1f80e0, #7dd3fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -113,6 +113,54 @@ main {
   @apply transition-all duration-300 hover:shadow-glow;
 }
 
+/* Horizontal rail layout for Prime-style rows */
+.rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  scroll-snap-type: x mandatory;
+}
+
+.rail::-webkit-scrollbar {
+  height: 6px;
+}
+
+.rail::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(0, 168, 225, 0.6), rgba(31, 128, 224, 0.6));
+  border-radius: 999px;
+}
+
+
+.rail-item {
+  flex: 0 0 auto;
+  width: 18rem;
+  scroll-snap-align: start;
+}
+
+.row-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.row-wrap {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .rail-item {
+    width: 20rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .rail-item {
+    width: 22rem;
+  }
+}
+
 /* Responsive grid */
 @media (max-width: 640px) {
   :root {
@@ -127,7 +175,7 @@ button, a, input {
 
 /* Selection styling */
 ::selection {
-  background-color: rgb(99, 102, 241);
+  background-color: rgb(0, 168, 225);
   color: white;
 }
 
@@ -138,7 +186,7 @@ button, a, input {
 
 /* Focus ring styles */
 :focus-visible {
-  outline: 2px solid rgb(99, 102, 241);
+  outline: 2px solid rgb(0, 168, 225);
   outline-offset: 2px;
 }
 

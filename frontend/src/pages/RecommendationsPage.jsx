@@ -195,7 +195,7 @@ const RecommendationsPage = () => {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin text-accent-red mx-auto" />
+          <Loader2 className="w-8 h-8 animate-spin text-accent-primary mx-auto" />
           <div className="space-y-2">
             <h2 className="text-xl font-heading font-semibold text-txt-primary">
               Generating Your Recommendations
@@ -213,7 +213,7 @@ const RecommendationsPage = () => {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="max-w-md mx-auto text-center space-y-6 p-6">
-          <AlertCircle className="w-16 h-16 text-accent-red mx-auto" />
+          <AlertCircle className="w-16 h-16 text-accent-primary mx-auto" />
           <div className="space-y-2">
             <h2 className="text-xl font-heading font-semibold text-txt-primary">
               Oops! Something went wrong
@@ -256,10 +256,10 @@ const RecommendationsPage = () => {
     : 0;
 
   const filterModes = [
-    { id: 'all', label: 'All Movies', icon: Film, color: 'accent-red' },
-    { id: 'popular', label: 'Popular', icon: Flame, color: 'accent-gold' },
+    { id: 'all', label: 'All Movies', icon: Film, color: 'accent-primary' },
+    { id: 'popular', label: 'Popular', icon: Flame, color: 'accent-warning' },
     { id: 'hidden', label: 'Hidden Gems', icon: Eye, color: 'accent-green' },
-    { id: 'highrated', label: 'Top Rated', icon: Award, color: 'accent-purple' },
+    { id: 'highrated', label: 'Top Rated', icon: Award, color: 'accent-secondary' },
     { id: 'diverse', label: 'Diverse Mix', icon: Shuffle, color: 'accent-blue' },
   ];
 
@@ -270,7 +270,7 @@ const RecommendationsPage = () => {
         <nav className="flex items-center gap-2 text-sm text-txt-muted mb-6">
           <Link 
             to="/" 
-            className="inline-flex items-center gap-1.5 text-txt-secondary hover:text-accent-red transition-colors"
+            className="inline-flex items-center gap-1.5 text-txt-secondary hover:text-accent-primary transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             Home
@@ -283,7 +283,7 @@ const RecommendationsPage = () => {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
           <div className="space-y-1">
             <div className="flex items-center gap-2 mb-1">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-red bg-opacity-15 text-accent-red text-xs font-semibold">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-primary bg-opacity-15 text-accent-primary text-xs font-semibold">
                 <Zap className="w-3 h-3" /> Hybrid AI
               </span>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-green bg-opacity-15 text-accent-green text-xs font-semibold">
@@ -346,7 +346,7 @@ const RecommendationsPage = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 bg-bg-elevated border border-bg-hover rounded-lg text-xs text-txt-primary focus:outline-none focus:border-accent-red"
+              className="px-3 py-2 bg-bg-elevated border border-bg-hover rounded-lg text-xs text-txt-primary focus:outline-none focus:border-accent-primary"
             >
               <option value="confidence">Sort: Match %</option>
               <option value="rating">Sort: Rating</option>
@@ -458,25 +458,17 @@ const RecommendationsPage = () => {
                 </div>
 
                 {/* Recommendations Grid */}
-                <div className={`grid gap-4 ${
-                  viewMode === 'compact' 
-                    ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-6' 
-                    : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
-                }`}>
+                <div className="rail">
                   {filteredAndSortedRecs.map((movie, index) => (
                     <div
                       key={movie.movieId}
-                      className={`animate-slide-up stagger-${Math.min(index + 1, 10)} relative`}
+                      className={`rail-item animate-slide-up stagger-${Math.min(index + 1, 10)} relative`}
                     >
                       {/* Rank Badge */}
-                      <div className="absolute -top-2 -left-2 z-10 w-7 h-7 rounded-full bg-accent-red flex items-center justify-center shadow-lg">
+                      <div className="absolute -top-2 -left-2 z-10 w-7 h-7 rounded-full bg-accent-primary flex items-center justify-center shadow-lg">
                         <span className="text-white text-xs font-bold">#{index + 1}</span>
                       </div>
-                      <MovieCard 
-                        movie={movie} 
-                        showExplanation={true} 
-                        compact={viewMode === 'compact'} 
-                      />
+                      <MovieCard movie={movie} />
                     </div>
                   ))}
                 </div>

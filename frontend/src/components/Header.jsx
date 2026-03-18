@@ -27,67 +27,58 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-8 ${
-        isScrolled ? 'py-2 md:py-2' : 'py-2 md:py-3'
-      }`}
-      style={{
-        background: isScrolled 
-          ? 'rgba(26, 26, 46, 0.8)' 
-          : 'rgba(26, 26, 46, 0.6)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: isScrolled 
-          ? '1px solid rgba(255, 255, 255, 0.08)' 
-          : 'none',
-      }}
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
+        isScrolled ? 'py-2' : 'py-3'
+      } bg-bg-primary/90 backdrop-blur-xl border-b border-white/5`}
     >
-      <div className="w-full">
-        <div className="flex items-center justify-between h-12 md:h-14 gap-4 px-4 md:px-6">
+      <div className="w-full px-4 md:px-8">
+        <div className="flex items-center justify-between h-12 md:h-14 gap-4">
           {/* Logo */}
           <Link
             to="/"
             className="flex items-center gap-2 group transition-transform hover:scale-105 flex-shrink-0"
           >
             <div className="relative">
-              <div className="w-8 h-8 md:w-9 md:h-9 bg-gradient-to-tr from-indigo-600 to-pink-600 rounded-lg flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-500">
+              <div className="w-8 h-8 md:w-9 md:h-9 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform duration-500">
                 <Film className="w-5 h-5 text-white" strokeWidth={2.5} />
               </div>
-              <Sparkles className="w-3 h-3 text-amber-400 absolute -top-1 -right-1 animate-pulse" />
+              <Sparkles className="w-3 h-3 text-cyan-300 absolute -top-1 -right-1 animate-pulse" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm md:text-lg font-black gradient-text uppercase tracking-tight leading-none">
+              <span className="text-sm md:text-lg font-black text-white uppercase tracking-tight leading-none">
                 ReelSense
               </span>
-              <span className="text-[7px] md:text-[8px] uppercase tracking-[0.15em] font-bold text-slate-400 hidden sm:inline">
-                Smart Recs
+              <span className="text-[7px] md:text-[8px] uppercase tracking-[0.18em] font-semibold text-txt-muted hidden sm:inline">
+                Prime Picks
               </span>
             </div>
           </Link>
 
           {/* Search Bar - Desktop */}
-          <div className="hidden lg:block flex-1 max-w-xs mx-4">
+          <div className="hidden lg:block flex-1 max-w-sm mx-6">
             <MovieSearchBar />
           </div>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-2">
             {navItems.map(({ path, label, icon: Icon }) => (
               <Link
                 key={path}
                 to={path}
-                className={`relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300 group ${
+                className={`relative flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-300 group ${
                   isActive(path)
-                    ? 'text-white bg-white/10'
-                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    ? 'text-white bg-cyan-500/15 border border-cyan-400/30'
+                    : 'text-txt-secondary hover:text-white hover:bg-white/5'
                 }`}
               >
                 <Icon className={`w-4 h-4 ${
                   isActive(path) 
-                    ? 'text-indigo-400' 
-                    : 'text-slate-400 group-hover:text-indigo-400'
+                    ? 'text-cyan-300' 
+                    : 'text-txt-muted group-hover:text-cyan-300'
                 } transition-colors duration-300`} />
                 <span className="hidden lg:inline">{label}</span>
                 {isActive(path) && (
-                  <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full" />
+                  <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" />
                 )}
               </Link>
             ))}
@@ -98,7 +89,7 @@ const Header = () => {
             {/* Search Icon - Mobile */}
             <button
               onClick={() => setShowSearch(!showSearch)}
-              className="p-2 md:p-2 rounded-lg bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 transition-all md:hidden"
+              className="p-2 md:p-2 rounded-lg bg-white/5 text-txt-secondary hover:text-white hover:bg-white/10 transition-all md:hidden"
             >
               <Search className="w-4 h-4" />
             </button>
@@ -106,7 +97,7 @@ const Header = () => {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 transition-all"
+              className="md:hidden p-2 rounded-lg bg-white/5 text-txt-secondary hover:text-white hover:bg-white/10 transition-all"
             >
               {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
@@ -130,8 +121,8 @@ const Header = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all ${
                   isActive(path)
-                    ? 'text-white bg-gradient-to-r from-indigo-600/30 to-pink-600/30 border border-indigo-500/30'
-                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    ? 'text-white bg-gradient-to-r from-cyan-500/25 to-blue-600/25 border border-cyan-400/30'
+                    : 'text-txt-secondary hover:text-white hover:bg-white/5'
                 }`}
               >
                 <Icon className="w-5 h-5" />

@@ -143,7 +143,7 @@ const AnalyticsPage = () => {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin text-accent-red mx-auto" />
+          <Loader2 className="w-8 h-8 animate-spin text-accent-primary mx-auto" />
           <div className="space-y-2">
             <h2 className="text-xl font-heading font-semibold text-txt-primary">
               Loading Analytics
@@ -161,7 +161,7 @@ const AnalyticsPage = () => {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="max-w-md mx-auto text-center space-y-6 p-6">
-          <AlertCircle className="w-16 h-16 text-accent-red mx-auto" />
+          <AlertCircle className="w-16 h-16 text-accent-primary mx-auto" />
           <div className="space-y-2">
             <h2 className="text-xl font-heading font-semibold text-txt-primary">
               Analytics Unavailable
@@ -200,7 +200,7 @@ const AnalyticsPage = () => {
       users: item.count
     })) : [];
 
-  const COLORS = ['#e50914', '#f5c518', '#46d369', '#2196f3', '#9c27b0', '#ff9800', '#795548', '#607d8b'];
+  const COLORS = ['#00a8e1', '#1f80e0', '#2bd576', '#7dd3fc', '#6366f1', '#f5c518', '#4f46e5', '#0ea5e9'];
 
   return (
     <div className="min-h-screen bg-bg-primary">
@@ -218,7 +218,7 @@ const AnalyticsPage = () => {
         {/* Page Title */}
         <div className="text-center mb-12 space-y-4 animate-fade-in-up">
           <h1 className="text-3xl md:text-4xl font-heading font-bold text-txt-primary flex items-center justify-center gap-3">
-            <BarChart3 className="w-8 h-8 text-accent-red" />
+            <BarChart3 className="w-8 h-8 text-accent-primary" />
             Analytics Dashboard
           </h1>
           <p className="text-txt-secondary text-lg max-w-3xl mx-auto">
@@ -243,7 +243,7 @@ const AnalyticsPage = () => {
         
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-8">
-            <Brain className="w-6 h-6 text-accent-red" />
+            <Brain className="w-6 h-6 text-accent-primary" />
             <h2 className="text-2xl font-heading font-bold text-txt-primary">Model Performance</h2>
           </div>
           
