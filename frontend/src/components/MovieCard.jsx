@@ -5,8 +5,7 @@ import { Star, Play, Heart, Share2 } from 'lucide-react';
 const MovieCard = ({ movie, showExplanation, compact }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [showShare, setShowShare] = useState(false);
-  const [imageError, setImageError] = useState(false);
-  const [reloadKey, setReloadKey] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Extracting details with fallbacks
   const title = movie.title || 'Unknown Title';
@@ -14,11 +13,32 @@ const MovieCard = ({ movie, showExplanation, compact }) => {
   const genres = movie.genres ? movie.genres.slice(0, 2).map(g => g.name || g).join(', ') : '';
   const year = movie.release_date ? new Date(movie.release_date).getFullYear() : (movie.year || '');
   const overview = movie.overview || movie.description || '';
+  
+  // Generate a unique gradient based on movie title for fallback
+  const getGradientColor = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    const colors = [
+      'from-blue-600 to-cyan-500',
+      'from-purple-600 to-blue-500',
+      'from-orange-600 to-red-500',
+      'from-green-600 to-cyan-500',
+      'from-pink-600 to-purple-500',
+      'from-indigo-600 to-blue-500',
+      'from-amber-600 to-orange-500',
+      'from-teal-600 to-cyan-500',
+    ];
+    return colors[Math.abs(hash) % colors.length];
+  };
+
   const posterUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : (movie.image || 'https://via.placeholder.com/500x750?text=No+Poster');
+    : null;
 
-  const posterUrlWithRetry = posterUrl ? `${posterUrl}?v=${reloadKey}` : posterUrl;
+  const fallbackGradient = getGradientColor(title);
 
   const handleFavorite = (e) => {
     e.preventDefault();
@@ -40,33 +60,32 @@ const MovieCard = ({ movie, showExplanation, compact }) => {
   return (
     <Link
       to={`/movie/${movie.id || movie.movieId}`}
-      className="group relative card-premium aspect-video animate-fade-in-up rounded-xl overflow-hidden cursor-pointer block h-full w-full"
+      className="group relative card-premium animate-fade-in-up rounded-xl overflow-hidden cursor-pointer block h-full w-full"
     >
-      {/* Poster Image */}
-      <img
-        src={posterUrlWithRetry}
-        alt={title}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        loading="lazy"
-        onLoad={() => setImageError(false)}
-        onError={() => setImageError(true)}
-      />
+      {/* Fallback Gradient Background */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${fallbackGradient} opacity-60`} />
 
-      {imageError && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60 text-white">
-          <span className="text-sm font-semibold">Failed to load image</span>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              setReloadKey((prev) => prev + 1);
-              setImageError(false);
-            }}
-            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20"
-          >
-            Retry
-          </button>
-        </div>
+      {/* Poster Image */}
+      {posterUrl && (
+        <img
+          src={posterUrl}
+          alt={title}
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          loading="lazy"
+          onLoad={() => {
+            setImageLoaded(true);
+          }}
+          onError={() => {
+            setImageLoaded(true);
+          }}
+        />
+      )}
+
+      {/* Loading/Error State: Show Animated Pattern */}
+      {!imageLoaded && (
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 animate-pulse" />
       )}
 
       {/* Glass Overlay on Hover */}

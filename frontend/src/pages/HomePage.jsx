@@ -31,7 +31,7 @@ const HomePage = () => {
     if (!userId || userId < 1 || userId > 610) {
       alert('Please enter a valid User ID between 1 and 610');
       return;
-      <div className="min-h-screen bg-bg-primary selection:bg-cyan-500/30">
+    }
 
     setIsLoading(true);
     devLog('Getting recommendations for user:', userId);
@@ -190,43 +190,54 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="py-10">
+      <section className="py-10 w-full">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="row-wrap">
-            <div className="flex items-center justify-between mb-3">
+          <div className="row-wrap mb-4">
+            <div className="flex items-center justify-between">
               <h2 className="row-title">Indian Crime Action</h2>
               <button className="text-sm text-cyan-300 hover:text-cyan-200 transition-colors">View all</button>
             </div>
-            <div className="rail">
-              {[...sampleMovies, ...sampleMovies].map((movie) => (
-                <div key={`crime-${movie.id}-${movie.title}`} className="rail-item">
-                  <MovieCard movie={movie} />
-                </div>
-              ))}
-            </div>
           </div>
+        </div>
+        <div className="w-full overflow-x-auto">
+          <div className="flex gap-4 px-6 lg:px-8">
+            {[...sampleMovies, ...sampleMovies].map((movie) => (
+              <div key={`crime-${movie.id}-${movie.title}`} className="rail-item flex-shrink-0">
+                <MovieCard movie={movie} />
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div className="row-wrap">
-            <div className="flex items-center justify-between mb-3">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-8">
+          <div className="row-wrap mb-4">
+            <div className="flex items-center justify-between">
               <h2 className="row-title">Continue Watching for You</h2>
               <button className="text-sm text-cyan-300 hover:text-cyan-200 transition-colors">Manage</button>
             </div>
-            <div className="rail">
-              {[...sampleMovies, ...sampleMovies].map((movie) => (
-                <div key={`continue-${movie.id}-${movie.title}`} className="rail-item">
-                  <MovieCard movie={movie} />
-                </div>
-              ))}
-            </div>
           </div>
+        </div>
+        <div className="w-full overflow-x-auto">
+          <div className="flex gap-4 px-6 lg:px-8">
+            {[...sampleMovies, ...sampleMovies].map((movie) => (
+              <div key={`continue-${movie.id}-${movie.title}`} className="rail-item flex-shrink-0">
+                <MovieCard movie={movie} />
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div className="row-wrap">
-            <div className="flex items-center justify-between mb-3">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-8">
+          <div className="row-wrap mb-4">
+            <div className="flex items-center justify-between">
               <h2 className="row-title">Escapist Reality TV</h2>
               <button className="text-sm text-cyan-300 hover:text-cyan-200 transition-colors">View all</button>
             </div>
-            <div className="rail">
-              {[...sampleMovies, ...sampleMovies].map((movie) => (
+          </div>
+        </div>
+        <div className="w-full overflow-x-auto">
+          <div className="flex gap-4 px-6 lg:px-8">
+            {[...sampleMovies, ...sampleMovies].map((movie) => (
                 <div key={`reality-${movie.id}-${movie.title}`} className="rail-item">
                   <MovieCard movie={movie} />
                 </div>
